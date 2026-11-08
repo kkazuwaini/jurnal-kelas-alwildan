@@ -470,10 +470,10 @@
 
     <!-- MODAL MANAJEMEN SISWA -->
     <div id="modal-siswa" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden no-print">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-lg mx-4 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-xl mx-4 overflow-hidden">
             <div class="bg-islamic-800 text-white p-4 flex items-center justify-between">
                 <h3 class="font-bold text-base flex items-center gap-2">
-                    <i class="fa-solid fa-users"></i> Kelola Daftar Siswa Kelas 2 Inter 1
+                    <i class="fa-solid fa-users"></i> Kelola Daftar Siswa & Laporan
                 </h3>
                 <button onclick="closeManageStudentsModal()" class="text-slate-300 hover:text-white text-lg">
                     <i class="fa-solid fa-xmark"></i>
@@ -489,7 +489,7 @@
                     </button>
                 </form>
 
-                <div class="text-xs text-slate-500 bg-emerald-50 border border-emerald-100 rounded-lg p-3">Tambahkan foto dari perangkat. Gunakan foto berukuran kecil agar penyimpanan browser tetap ringan. Setiap siswa juga memiliki tombol untuk mencetak laporan individu.</div>
+                <div class="text-xs text-slate-500 bg-emerald-50 border border-emerald-100 rounded-lg p-3">Cetak Laporan Akademik/Jurnal Kelas dan Laporan Al-Qur'an secara terpisah untuk setiap siswa.</div>
                 <div class="space-y-2" id="student-list-container">
                     <!-- JS Injected List -->
                 </div>
@@ -1076,9 +1076,10 @@
                         <div class="min-w-0"><div class="font-semibold text-slate-800 text-sm truncate">${escapeHtml(s.name)}</div><div class="text-xs text-slate-500">NIS: ${escapeHtml(s.nis)}</div></div>
                     </div>
                     <div class="flex items-center flex-wrap gap-2">
-                        <label class="cursor-pointer px-3 py-2 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-xs font-semibold"><i class="fa-solid fa-camera mr-1"></i> ${s.photo ? 'Ganti Foto' : 'Tambah Foto'}<input type="file" accept="image/*" class="hidden" onchange="handleStudentPhoto('${s.id}', this)"></label>
-                        <button onclick="printStudentReport('${s.id}')" class="px-3 py-2 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-semibold"><i class="fa-solid fa-file-pdf mr-1"></i> Laporan</button>
-                        <button onclick="removeStudent('${s.id}')" class="px-3 py-2 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 text-xs font-semibold"><i class="fa-solid fa-trash-can"></i></button>
+                        <label class="cursor-pointer px-2.5 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-xs font-semibold"><i class="fa-solid fa-camera mr-1"></i> ${s.photo ? 'Foto' : '+ Foto'}<input type="file" accept="image/*" class="hidden" onchange="handleStudentPhoto('${s.id}', this)"></label>
+                        <button onclick="printStudentReport('${s.id}')" class="px-2.5 py-1.5 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-semibold" title="Laporan Jurnal Kelas"><i class="fa-solid fa-file-pdf mr-1"></i> Jurnal</button>
+                        <button onclick="printQuranReport('${s.id}')" class="px-2.5 py-1.5 rounded-lg bg-emerald-100 text-emerald-800 hover:bg-emerald-200 text-xs font-semibold" title="Laporan Hafalan Al-Qur'an"><i class="fa-solid fa-book-quran mr-1"></i> Qur'an</button>
+                        <button onclick="removeStudent('${s.id}')" class="px-2 py-1.5 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 text-xs font-semibold"><i class="fa-solid fa-trash-can"></i></button>
                     </div>`;
                 container.appendChild(div);
             });
@@ -1105,6 +1106,7 @@
             reader.readAsDataURL(file);
         }
 
+        // LAPORAN JURNAL KELAS INDIVIDU (KHUSUS PRESENSI & KASUS)
         function printStudentReport(studentId) {
             const student = students.find(s => s.id === studentId); if (!student) return;
             const attendanceRows = [];
@@ -1114,16 +1116,27 @@
             });
             const counts = {H:0,I:0,S:0,A:0,T:0}; attendanceRows.forEach(r => counts[r.status] = (counts[r.status] || 0) + 1);
             const cases = caseData.filter(c => c.studentId === studentId).sort((a,b) => (b.date || '').localeCompare(a.date || ''));
-            const qurans = quranData.filter(q => q.studentId === studentId).sort((a,b) => (b.date || '').localeCompare(a.date || ''));
 
             const total = attendanceRows.length; const present = counts.H + counts.T; const pct = total ? Math.round(present / total * 100) : 0;
             const attendanceHtml = attendanceRows.length ? attendanceRows.map(r => `<tr><td>${escapeHtml(r.date)}</td><td>${escapeHtml(r.status)}</td><td>${escapeHtml(r.note || '-')}</td></tr>`).join('') : '<tr><td colspan="3">Belum ada data presensi tersimpan.</td></tr>';
             const caseHtml = cases.length ? cases.map(c => `<tr><td>${escapeHtml(c.date)}</td><td>${escapeHtml(c.title)}</td><td>${escapeHtml(c.level)}</td><td>${escapeHtml(c.points)}</td><td>${escapeHtml(c.desc || '-')}</td><td>${escapeHtml(c.action || '-')}</td><td>${escapeHtml(c.status)}</td></tr>`).join('') : '<tr><td colspan="7">Belum ada catatan kasus.</td></tr>';
-            const quranHtml = qurans.length ? qurans.map(q => `<tr><td>${escapeHtml(q.date)}</td><td>${escapeHtml(q.category)}</td><td>${escapeHtml(q.surah)}</td><td>${escapeHtml(q.smoothness)}</td><td>${escapeHtml(q.tajweed)}</td><td>${escapeHtml(q.note || '-')}</td></tr>`).join('') : '<tr><td colspan="6">Belum ada riwayat setoran Al-Qur\'an.</td></tr>';
 
             const photo = student.photo ? `<img src="${student.photo}" style="width:90px;height:90px;object-fit:cover;border-radius:50%;border:2px solid #ddd">` : '';
             const win = window.open('', '_blank'); if (!win) { alert('Izinkan pop-up untuk mencetak laporan.'); return; }
-            win.document.write(`<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Laporan ${escapeHtml(student.name)}</title><style>body{font:12px Arial,sans-serif;color:#222;margin:28px}h1,h2{text-align:center;margin:4px}h1{font-size:17px}h2{font-size:14px;margin-bottom:20px}.identity{display:flex;align-items:center;gap:18px;border:1px solid #bbb;padding:14px;margin:18px 0}.summary{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}.box{border:1px solid #bbb;padding:9px;text-align:center}.box b{display:block;font-size:18px;margin-top:5px}table{width:100%;border-collapse:collapse;margin:10px 0 22px}th,td{border:1px solid #999;padding:7px;text-align:left;vertical-align:top}th{background:#e8f5ee}h3{margin:18px 0 7px}.sign{display:flex;justify-content:space-between;margin-top:55px;text-align:center}.sign div{width:220px}@media print{body{margin:15mm}.no-print{display:none}}</style></head><body><h1>SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM</h1><h2>LAPORAN INDIVIDU MURID — ${escapeHtml(classes.find(c=>c.id===activeClassId)?.name || '')}</h2><div class="identity">${photo}<div><b>Nama:</b> ${escapeHtml(student.name)}<br><b>NIS:</b> ${escapeHtml(student.nis)}<br><b>Kelas:</b> ${escapeHtml(classes.find(c=>c.id===activeClassId)?.name || '')}<br><b>Tanggal cetak:</b> ${new Date().toLocaleDateString('id-ID')}</div></div><h3>Ringkasan Kehadiran</h3><div class="summary"><div class="box">Hadir<b>${counts.H}</b></div><div class="box">Izin<b>${counts.I}</b></div><div class="box">Sakit<b>${counts.S}</b></div><div class="box">Alpa<b>${counts.A}</b></div><div class="box">Terlambat<b>${counts.T}</b></div></div><p><b>Persentase hadir (H + T):</b> ${pct}% &nbsp; | &nbsp; <b>Jumlah hari tercatat:</b> ${total}</p><h3>Rincian Presensi</h3><table><thead><tr><th>Tanggal</th><th>Status</th><th>Keterangan</th></tr></thead><tbody>${attendanceHtml}</tbody></table><h3>Riwayat Setoran & Penilaian Al-Qur'an</h3><table><thead><tr><th>Tanggal</th><th>Kategori</th><th>Surah & Ayat</th><th>Kelancaran</th><th>Tajwid & Makhraj</th><th>Catatan</th></tr></thead><tbody>${quranHtml}</tbody></table><h3>Riwayat Jurnal Kasus & Pembinaan</h3><table><thead><tr><th>Tanggal</th><th>Kejadian</th><th>Tingkat</th><th>Poin</th><th>Kronologi</th><th>Tindakan Guru</th><th>Status</th></tr></thead><tbody>${caseHtml}</tbody></table><div class="sign"><div>Mengetahui,<br>Kepala Sekolah<br><br><br>(................................)</div><div>Mataram, ${new Date().toLocaleDateString('id-ID')}<br>Wali Kelas<br><br><br><b>Muhammad Kazuwaini, Lc.</b></div></div><script>window.onload=()=>window.print();<\/script></body></html>`);
+            win.document.write(`<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Jurnal ${escapeHtml(student.name)}</title><style>body{font:12px Arial,sans-serif;color:#222;margin:28px}h1,h2{text-align:center;margin:4px}h1{font-size:17px}h2{font-size:14px;margin-bottom:20px}.identity{display:flex;align-items:center;gap:18px;border:1px solid #bbb;padding:14px;margin:18px 0}.summary{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}.box{border:1px solid #bbb;padding:9px;text-align:center}.box b{display:block;font-size:18px;margin-top:5px}table{width:100%;border-collapse:collapse;margin:10px 0 22px}th,td{border:1px solid #999;padding:7px;text-align:left;vertical-align:top}th{background:#e8f5ee}h3{margin:18px 0 7px}.sign{display:flex;justify-content:space-between;margin-top:55px;text-align:center}.sign div{width:220px}@media print{body{margin:15mm}.no-print{display:none}}</style></head><body><h1>SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM</h1><h2>LAPORAN JURNAL KELAS & KEDISIPLINAN SISWA — ${escapeHtml(classes.find(c=>c.id===activeClassId)?.name || '')}</h2><div class="identity">${photo}<div><b>Nama Siswa:</b> ${escapeHtml(student.name)}<br><b>NIS:</b> ${escapeHtml(student.nis)}<br><b>Kelas:</b> ${escapeHtml(classes.find(c=>c.id===activeClassId)?.name || '')}<br><b>Tanggal Cetak:</b> ${new Date().toLocaleDateString('id-ID')}</div></div><h3>Ringkasan Kehadiran</h3><div class="summary"><div class="box">Hadir<b>${counts.H}</b></div><div class="box">Izin<b>${counts.I}</b></div><div class="box">Sakit<b>${counts.S}</b></div><div class="box">Alpa<b>${counts.A}</b></div><div class="box">Terlambat<b>${counts.T}</b></div></div><p><b>Persentase Hadir (H + T):</b> ${pct}% &nbsp; | &nbsp; <b>Total Hari Tercatat:</b> ${total}</p><h3>Rincian Presensi</h3><table><thead><tr><th>Tanggal</th><th>Status</th><th>Keterangan</th></tr></thead><tbody>${attendanceHtml}</tbody></table><h3>Riwayat Jurnal Kasus & Pembinaan Perilaku</h3><table><thead><tr><th>Tanggal</th><th>Kejadian</th><th>Tingkat</th><th>Poin</th><th>Kronologi</th><th>Tindakan Guru</th><th>Status</th></tr></thead><tbody>${caseHtml}</tbody></table><div class="sign"><div>Mengetahui,<br>Kepala Sekolah<br><br><br>(................................)</div><div>Mataram, ${new Date().toLocaleDateString('id-ID')}<br>Wali Kelas<br><br><br><b>Muhammad Kazuwaini, Lc.</b></div></div><script>window.onload=()=>window.print();<\/script></body></html>`);
+            win.document.close();
+        }
+
+        // LAPORAN AL-QUR'AN INDIVIDU TERPISAH
+        function printQuranReport(studentId) {
+            const student = students.find(s => s.id === studentId); if (!student) return;
+            const qurans = quranData.filter(q => q.studentId === studentId).sort((a,b) => (b.date || '').localeCompare(a.date || ''));
+
+            const quranHtml = qurans.length ? qurans.map((q, idx) => `<tr><td style="text-align:center">${idx + 1}</td><td>${escapeHtml(q.date)}</td><td>${escapeHtml(q.category)}</td><td><b>${escapeHtml(q.surah)}</b></td><td>${escapeHtml(q.smoothness)}</td><td>${escapeHtml(q.tajweed)}</td><td>${escapeHtml(q.note || '-')}</td></tr>`).join('') : '<tr><td colspan="7" style="text-align:center">Belum ada riwayat setoran Al-Qur\'an.</td></tr>';
+
+            const photo = student.photo ? `<img src="${student.photo}" style="width:90px;height:90px;object-fit:cover;border-radius:50%;border:2px solid #047857">` : '';
+            const win = window.open('', '_blank'); if (!win) { alert('Izinkan pop-up untuk mencetak laporan.'); return; }
+            win.document.write(`<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Laporan Al-Qur'an ${escapeHtml(student.name)}</title><style>body{font:12px Arial,sans-serif;color:#222;margin:28px}h1,h2{text-align:center;margin:4px}h1{font-size:17px;color:#047857}h2{font-size:14px;margin-bottom:20px;color:#333}.identity{display:flex;align-items:center;gap:18px;border:2px solid #047857;background:#f0fdf4;padding:14px;margin:18px 0;border-radius:8px}table{width:100%;border-collapse:collapse;margin:15px 0 22px}th,td{border:1px solid #777;padding:8px;text-align:left;vertical-align:top}th{background:#dcfce7;color:#047857}.sign{display:flex;justify-content:space-between;margin-top:55px;text-align:center}.sign div{width:220px}@media print{body{margin:15mm}.no-print{display:none}}</style></head><body><h1>SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM</h1><h2>LAPORAN PENILAIAN AL-QUR'AN (TAHFIDZ & TAHSIN)</h2><div class="identity">${photo}<div><b>Nama Murid:</b> ${escapeHtml(student.name)}<br><b>NIS:</b> ${escapeHtml(student.nis)}<br><b>Kelas:</b> ${escapeHtml(classes.find(c=>c.id===activeClassId)?.name || '')}<br><b>Total Setoran Tercatat:</b> ${qurans.length} kali<br><b>Tanggal Cetak:</b> ${new Date().toLocaleDateString('id-ID')}</div></div><h3>Riwayat Setoran & Assessment Hafalan Al-Qur'an</h3><table><thead><tr><th style="width:30px;text-align:center">No</th><th style="width:90px">Tanggal</th><th style="width:140px">Jenis Setoran</th><th>Surah & Ayat</th><th>Kelancaran</th><th>Tajwid & Makhraj</th><th>Catatan Ustadz/Penguji</th></tr></thead><tbody>${quranHtml}</tbody></table><div class="sign"><div>Mengetahui,<br>Koordinator Al-Qur'an<br><br><br>(................................)</div><div>Mataram, ${new Date().toLocaleDateString('id-ID')}<br>Penguji / Ustadz Pembimbing<br><br><br><b>Muhammad Kazuwaini, Lc.</b></div></div><script>window.onload=()=>window.print();<\/script></body></html>`);
             win.document.close();
         }
 
