@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jurnal Kelas - SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM</title>
+    <title>Jurnal Kelas & Penilaian Al-Qur'an - SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -64,11 +64,8 @@
                     <!-- Logo SD AL-WILDAN 20 MATARAM -->
                     <div class="w-16 h-16 rounded-full bg-white p-1 border-2 border-gold-400 shadow-md flex items-center justify-center shrink-0">
                         <svg viewBox="0 0 100 100" class="w-full h-full">
-                            <!-- Outer Blue Circle -->
                             <circle cx="50" cy="50" r="48" fill="#0000FF" stroke="#FF5500" stroke-width="2"/>
-                            <!-- Inner Orange Circle -->
                             <circle cx="50" cy="50" r="32" fill="#FF5500"/>
-                            <!-- Circular Text -->
                             <path id="textPathTop" d="M 12 50 A 38 38 0 0 1 88 50" fill="none"/>
                             <path id="textPathBottom" d="M 88 50 A 38 38 0 0 1 12 50" fill="none"/>
                             <text fill="#00FF00" font-size="9" font-weight="bold" font-family="sans-serif">
@@ -77,12 +74,10 @@
                             <text fill="#00FF00" font-size="7.5" font-weight="bold" font-family="sans-serif">
                                 <textPath href="#textPathBottom" startOffset="50%" text-anchor="middle">ISLAMIC SCHOOL MATARAM</textPath>
                             </text>
-                            <!-- Green 8-pointed star (Rub el Hizb style) -->
                             <g transform="translate(50, 50)">
                                 <rect x="-18" y="-18" width="36" height="36" fill="#00FF00" />
                                 <rect x="-18" y="-18" width="36" height="36" fill="#00FF00" transform="rotate(45)" />
                             </g>
-                            <!-- White Open Book Icon in Center -->
                             <g transform="translate(50, 50) scale(0.9)">
                                 <path d="M -14 -6 C -8 -9 -2 -9 0 -5 C 2 -9 8 -9 14 -6 L 14 7 C 8 4 2 4 0 7 C -2 4 -8 4 -14 7 Z" fill="#FFFFFF"/>
                                 <line x1="0" y1="-5" x2="0" y2="7" stroke="#00FF00" stroke-width="1.5"/>
@@ -137,8 +132,8 @@
                     <div class="text-2xl font-bold text-rose-300 mt-1" id="stat-alpa-terlambat">0</div>
                 </div>
                 <div class="bg-purple-500/20 backdrop-blur rounded-xl p-3 border border-purple-400/30">
-                    <div class="text-xs text-purple-200">Total Catatan Kasus</div>
-                    <div class="text-2xl font-bold text-purple-300 mt-1" id="stat-total-kasus">0</div>
+                    <div class="text-xs text-purple-200">Total Setoran Qur'an</div>
+                    <div class="text-2xl font-bold text-purple-300 mt-1" id="stat-total-quran">0</div>
                 </div>
             </div>
         </div>
@@ -189,12 +184,15 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
         
         <!-- NAV TABS -->
-        <div class="flex border-b border-slate-200 mb-6 no-print">
-            <button id="tab-btn-kehadiran" onclick="switchTab('kehadiran')" class="py-3 px-5 font-semibold text-sm border-b-2 border-islamic-600 text-islamic-700 flex items-center gap-2 transition">
+        <div class="flex border-b border-slate-200 mb-6 no-print overflow-x-auto">
+            <button id="tab-btn-kehadiran" onclick="switchTab('kehadiran')" class="py-3 px-5 font-semibold text-sm border-b-2 border-islamic-600 text-islamic-700 flex items-center gap-2 transition whitespace-nowrap">
                 <i class="fa-solid fa-clipboard-user"></i> 1. Daftar Kehadiran Siswa
             </button>
-            <button id="tab-btn-kasus" onclick="switchTab('kasus')" class="py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition">
+            <button id="tab-btn-kasus" onclick="switchTab('kasus')" class="py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
                 <i class="fa-solid fa-book-bookmark"></i> 2. Jurnal Kasus & Perilaku
+            </button>
+            <button id="tab-btn-quran" onclick="switchTab('quran')" class="py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
+                <i class="fa-solid fa-book-quran"></i> 3. Penilaian Al-Qur'an
             </button>
         </div>
 
@@ -308,7 +306,6 @@
 
             <!-- Tabel Riwayat Kasus -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden card-box">
-                <!-- Filter Bar Kasus -->
                 <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row items-center justify-between gap-3 no-print">
                     <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
                         <i class="fa-solid fa-list-check text-islamic-600"></i> Riwayat & Catatan Pelanggaran Siswa
@@ -354,11 +351,121 @@
             </div>
         </section>
 
+        <!-- TAB 3: PENILAIAN AL-QUR'AN -->
+        <section id="tab-quran" class="space-y-6 hidden">
+            <!-- Form Input Penilaian Qur'an -->
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 no-print">
+                <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-2">
+                    <i class="fa-solid fa-book-quran text-islamic-600"></i> Form Setoran & Penilaian Al-Qur'an (Tahfidz / Tahsin)
+                </h3>
+                
+                <form id="form-quran" onsubmit="saveQuranAssessment(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Siswa *</label>
+                        <select id="quran-student-id" required class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
+                            <option value="">-- Pilih Siswa --</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Penilaian *</label>
+                        <select id="quran-category" required class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
+                            <option value="Ziyadah (Tambah Hafalan)">Ziyadah (Tambah Hafalan)</option>
+                            <option value="Muraja'ah (Ulang Hafalan)">Muraja'ah (Ulang Hafalan)</option>
+                            <option value="Tahsin / Tilawah">Tahsin / Tilawah</option>
+                            <option value="Ujian Surah">Ujian Surah</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Setoran *</label>
+                        <input type="date" id="quran-date" required class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Surah & Ayat *</label>
+                        <input type="text" id="quran-surah" placeholder="Contoh: An-Naba' : 1 - 20" required class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Kelancaran Hafalan / Bacaan</label>
+                        <select id="quran-smoothness" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
+                            <option value="A (Sangat Lancar)">A (Sangat Lancar)</option>
+                            <option value="B (Lancar)">B (Lancar)</option>
+                            <option value="C (Cukup Lancar)">C (Cukup Lancar)</option>
+                            <option value="D (Kurang Lancar)">D (Kurang Lancar)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Tajwid & Makhraj</label>
+                        <select id="quran-tajweed" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
+                            <option value="A (Mumtaz / Sangat Baik)">A (Mumtaz / Sangat Baik)</option>
+                            <option value="B (Jayyid Jiddan / Baik)">B (Jayyid Jiddan / Baik)</option>
+                            <option value="C (Jayyid / Cukup)">C (Jayyid / Cukup)</option>
+                            <option value="D (Perlu Bimbingan)">D (Perlu Bimbingan)</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-3">
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan / Pesan Penguji</label>
+                        <textarea id="quran-note" rows="2" placeholder="Tingkatkan muraja'ah juz 30, perhatikan ghunnah dan panjang pendek..." class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none"></textarea>
+                    </div>
+
+                    <div class="md:col-span-3 flex justify-end">
+                        <button type="submit" class="bg-islamic-600 hover:bg-islamic-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition flex items-center gap-2 shadow">
+                            <i class="fa-solid fa-save"></i> Simpan Penilaian Qur'an
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Tabel Riwayat Penilaian Al-Qur'an -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden card-box">
+                <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row items-center justify-between gap-3 no-print">
+                    <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-islamic-600"></i> Riwayat Setoran & Nilai Al-Qur'an
+                    </h3>
+                    <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                        <select id="filter-quran-category" onchange="renderQuranTable()" class="border border-slate-300 rounded-lg text-xs p-2 focus:ring-2 focus:ring-islamic-500">
+                            <option value="">Semua Kategori</option>
+                            <option value="Ziyadah (Tambah Hafalan)">Ziyadah</option>
+                            <option value="Muraja'ah (Ulang Hafalan)">Muraja'ah</option>
+                            <option value="Tahsin / Tilawah">Tahsin / Tilawah</option>
+                            <option value="Ujian Surah">Ujian Surah</option>
+                        </select>
+
+                        <input type="text" id="search-quran" oninput="renderQuranTable()" placeholder="Cari nama/surah..." class="border border-slate-300 rounded-lg text-xs p-2 focus:ring-2 focus:ring-islamic-500 w-40">
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 text-xs uppercase font-semibold border-b border-slate-200">
+                                <th class="p-3.5">Tanggal</th>
+                                <th class="p-3.5">Nama Siswa</th>
+                                <th class="p-3.5">Jenis Setoran</th>
+                                <th class="p-3.5">Surah & Ayat</th>
+                                <th class="p-3.5 text-center">Kelancaran</th>
+                                <th class="p-3.5 text-center">Tajwid & Makhraj</th>
+                                <th class="p-3.5">Catatan Penguji</th>
+                                <th class="p-3.5 text-center no-print">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quran-table-body" class="divide-y divide-slate-100 text-sm">
+                            <!-- JS Inject Table Rows -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <!-- FOOTER -->
     <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs border-t border-slate-700 mt-8 no-print">
-        <p>© 2025 SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM — Jurnal Digital Kelas 2 Inter 1</p>
+        <p>© 2025 SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM — Jurnal Digital & Penilaian Al-Qur'an</p>
     </footer>
 
     <!-- MODAL MANAJEMEN SISWA -->
@@ -374,7 +481,6 @@
             </div>
             
             <div class="p-4 space-y-4 max-h-[75vh] overflow-y-auto">
-                <!-- Form Tambah Siswa -->
                 <form id="form-add-student" onsubmit="addStudent(event)" class="flex gap-2 border-b border-slate-200 pb-4">
                     <input type="text" id="new-student-nis" placeholder="NIS" required class="w-1/3 border border-slate-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-islamic-500">
                     <input type="text" id="new-student-name" placeholder="Nama Lengkap Siswa" required class="w-2/3 border border-slate-300 rounded-lg p-2 text-xs focus:ring-2 focus:ring-islamic-500">
@@ -384,7 +490,6 @@
                 </form>
 
                 <div class="text-xs text-slate-500 bg-emerald-50 border border-emerald-100 rounded-lg p-3">Tambahkan foto dari perangkat. Gunakan foto berukuran kecil agar penyimpanan browser tetap ringan. Setiap siswa juga memiliki tombol untuk mencetak laporan individu.</div>
-                <!-- List Siswa -->
                 <div class="space-y-2" id="student-list-container">
                     <!-- JS Injected List -->
                 </div>
@@ -463,18 +568,20 @@
                 desc: 'Lupa membawa buku modul Bahasa Inggris saat jam pelajaran pertama.',
                 action: 'Diberikan peringatan lisan & diingatkan untuk cek jadwal di rumah.',
                 status: 'Selesai'
-            },
+            }
+        ];
+
+        const DEFAULT_QURAN = [
             {
-                id: 'c2',
-                studentId: '8',
-                studentName: 'Muhammad Al-Fateh',
-                title: 'Bercanda berlebihan saat Wudhu',
-                level: 'Sedang',
-                points: 2,
+                id: 'q1',
+                studentId: '1',
+                studentName: 'Abdullah Azzam',
+                category: 'Ziyadah (Tambah Hafalan)',
                 date: new Date().toISOString().split('T')[0],
-                desc: 'Memercikkan air wudhu ke pakaian teman hingga basah.',
-                action: 'Diminta meminta maaf kepada teman dan membimbing ulang tata cara wudhu yang tertib.',
-                status: 'Dalam Proses'
+                surah: 'An-Naba\' : 1 - 20',
+                smoothness: 'A (Sangat Lancar)',
+                tajweed: 'A (Mumtaz / Sangat Baik)',
+                note: 'Bagus, perhatikan konsistensi panjang mad 2 harakat.'
             }
         ];
 
@@ -482,24 +589,28 @@
         let students = JSON.parse(localStorage.getItem('alwildan_students')) || DEFAULT_STUDENTS;
         let attendanceData = JSON.parse(localStorage.getItem('alwildan_attendance')) || {};
         let caseData = JSON.parse(localStorage.getItem('alwildan_cases')) || DEFAULT_CASES;
-        // Penyimpanan terpisah untuk setiap kelas (kompatibel dengan data versi lama).
+        let quranData = JSON.parse(localStorage.getItem('alwildan_quran')) || DEFAULT_QURAN;
+
+        // Penyimpanan terpisah untuk setiap kelas
         let classes = JSON.parse(localStorage.getItem('alwildan_classes')) || [{
             id: 'kelas_2_inter_1', name: 'Kelas 2 INTER 1', students: students,
-            attendanceData: attendanceData, caseData: caseData
+            attendanceData: attendanceData, caseData: caseData, quranData: quranData
         }];
+
         let activeClassId = localStorage.getItem('alwildan_active_class') || classes[0].id;
         if (!classes.some(c => c.id === activeClassId)) activeClassId = classes[0].id;
+
         const initialClass = classes.find(c => c.id === activeClassId);
         students = initialClass.students || [];
         attendanceData = initialClass.attendanceData || {};
         caseData = initialClass.caseData || [];
+        quranData = initialClass.quranData || [];
 
         // Current Date Tracker
         let selectedDate = new Date().toISOString().split('T')[0];
 
         // INIT APP ON LOAD
         window.onload = function() {
-            // Set date display
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const todayStr = new Date().toLocaleDateString('id-ID', options);
             document.getElementById('current-date').innerText = todayStr;
@@ -507,29 +618,35 @@
 
             document.getElementById('attendance-date-picker').value = selectedDate;
             document.getElementById('case-date').value = selectedDate;
+            document.getElementById('quran-date').value = selectedDate;
 
-            // Siapkan kelas aktif dan dropdown siswa
             renderClassSelector();
             document.getElementById('class-selector').value = activeClassId;
-            const printLabel = document.getElementById('print-header-class'); if (printLabel) printLabel.textContent = classes.find(c => c.id === activeClassId)?.name || 'JURNAL KELAS';
-            populateStudentDropdown();
+            const printLabel = document.getElementById('print-header-class'); 
+            if (printLabel) printLabel.textContent = classes.find(c => c.id === activeClassId)?.name || 'JURNAL KELAS';
             
-            // Render Initial Views
+            populateStudentDropdown();
             renderAttendanceTable();
             renderCaseTable();
+            renderQuranTable();
             updateStatistics();
         };
 
         // SAVE DATA TO LOCAL STORAGE
         function saveData() {
             const active = classes.find(c => c.id === activeClassId);
-            if (active) { active.students = students; active.attendanceData = attendanceData; active.caseData = caseData; }
+            if (active) { 
+                active.students = students; 
+                active.attendanceData = attendanceData; 
+                active.caseData = caseData; 
+                active.quranData = quranData;
+            }
             localStorage.setItem('alwildan_classes', JSON.stringify(classes));
             localStorage.setItem('alwildan_active_class', activeClassId);
-            // Salinan kompatibilitas untuk versi lama.
             localStorage.setItem('alwildan_students', JSON.stringify(students));
             localStorage.setItem('alwildan_attendance', JSON.stringify(attendanceData));
             localStorage.setItem('alwildan_cases', JSON.stringify(caseData));
+            localStorage.setItem('alwildan_quran', JSON.stringify(quranData));
             updateStatistics();
         }
 
@@ -539,61 +656,76 @@
             select.innerHTML = classes.map(c => `<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');
             select.value = activeClassId;
         }
+
         function escapeHtml(value) {
             return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
         }
+
         function addClass() {
             const name = prompt('Masukkan nama kelas baru (contoh: Kelas 3 INTER 1):');
             if (!name || !name.trim()) return;
             if (classes.some(c => c.name.toLowerCase() === name.trim().toLowerCase())) { alert('Nama kelas tersebut sudah ada.'); return; }
-            const item = { id: 'kelas_' + Date.now(), name: name.trim(), students: [], attendanceData: {}, caseData: [] };
+            const item = { id: 'kelas_' + Date.now(), name: name.trim(), students: [], attendanceData: {}, caseData: [], quranData: [] };
             classes.push(item); activeClassId = item.id;
-            students = item.students; attendanceData = item.attendanceData; caseData = item.caseData;
-            saveData(); renderClassSelector(); populateStudentDropdown(); renderAttendanceTable(); renderCaseTable(); renderStudentListModal();
+            students = item.students; attendanceData = item.attendanceData; caseData = item.caseData; quranData = item.quranData;
+            saveData(); renderClassSelector(); populateStudentDropdown(); renderAttendanceTable(); renderCaseTable(); renderQuranTable(); renderStudentListModal();
             document.getElementById('class-selector').value = activeClassId;
         }
+
         function switchClass(id) {
             if (!id || id === activeClassId) return;
             const current = classes.find(c => c.id === activeClassId);
-            if (current) { current.students = students; current.attendanceData = attendanceData; current.caseData = caseData; }
+            if (current) { 
+                current.students = students; 
+                current.attendanceData = attendanceData; 
+                current.caseData = caseData; 
+                current.quranData = quranData;
+            }
             const next = classes.find(c => c.id === id); if (!next) return;
-            activeClassId = id; students = next.students || []; attendanceData = next.attendanceData || {}; caseData = next.caseData || {};
+            activeClassId = id; 
+            students = next.students || []; 
+            attendanceData = next.attendanceData || {}; 
+            caseData = next.caseData || [];
+            quranData = next.quranData || [];
+            
             localStorage.setItem('alwildan_classes', JSON.stringify(classes));
             localStorage.setItem('alwildan_active_class', activeClassId);
-            populateStudentDropdown(); renderAttendanceTable(); renderCaseTable(); updateStatistics();
+            populateStudentDropdown(); renderAttendanceTable(); renderCaseTable(); renderQuranTable(); updateStatistics();
             const label = document.querySelector('#print-header-class'); if (label) label.textContent = next.name;
         }
+
         function deleteActiveClass() {
             if (classes.length <= 1) { alert('Minimal harus ada satu kelas.'); return; }
             const current = classes.find(c => c.id === activeClassId);
             if (!confirm(`Hapus kelas "${current.name}" beserta seluruh data kelas ini? Tindakan ini tidak dapat dibatalkan.`)) return;
             classes = classes.filter(c => c.id !== activeClassId); activeClassId = classes[0].id;
-            const next = classes[0]; students = next.students || []; attendanceData = next.attendanceData || {}; caseData = next.caseData || {};
+            const next = classes[0]; 
+            students = next.students || []; 
+            attendanceData = next.attendanceData || {}; 
+            caseData = next.caseData || [];
+            quranData = next.quranData || [];
+
             localStorage.setItem('alwildan_classes', JSON.stringify(classes)); localStorage.setItem('alwildan_active_class', activeClassId);
-            renderClassSelector(); populateStudentDropdown(); renderAttendanceTable(); renderCaseTable(); updateStatistics();
+            renderClassSelector(); populateStudentDropdown(); renderAttendanceTable(); renderCaseTable(); renderQuranTable(); updateStatistics();
         }
 
         // TAB SWITCHING LOGIC
         function switchTab(tabName) {
-            const tabAttendance = document.getElementById('tab-kehadiran');
-            const tabKasus = document.getElementById('tab-kasus');
-            const btnAttendance = document.getElementById('tab-btn-kehadiran');
-            const btnKasus = document.getElementById('tab-btn-kasus');
-
-            if (tabName === 'kehadiran') {
-                tabAttendance.classList.remove('hidden');
-                tabKasus.classList.add('hidden');
-                btnAttendance.className = 'py-3 px-5 font-semibold text-sm border-b-2 border-islamic-600 text-islamic-700 flex items-center gap-2 transition';
-                btnKasus.className = 'py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition';
-            } else {
-                tabAttendance.classList.add('hidden');
-                tabKasus.classList.remove('hidden');
-                btnKasus.className = 'py-3 px-5 font-semibold text-sm border-b-2 border-islamic-600 text-islamic-700 flex items-center gap-2 transition';
-                btnAttendance.className = 'py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition';
-            }
+            const tabs = ['kehadiran', 'kasus', 'quran'];
+            tabs.forEach(t => {
+                const el = document.getElementById(`tab-${t}`);
+                const btn = document.getElementById(`tab-btn-${t}`);
+                if (t === tabName) {
+                    el.classList.remove('hidden');
+                    btn.className = 'py-3 px-5 font-semibold text-sm border-b-2 border-islamic-600 text-islamic-700 flex items-center gap-2 transition whitespace-nowrap';
+                } else {
+                    el.classList.add('hidden');
+                    btn.className = 'py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap';
+                }
+            });
         }
 
-        // ================= PRESENSI / KEHADIRAN LOGIC =================
+        // ================= PRESENSI LOGIC =================
         function changeAttendanceDate() {
             selectedDate = document.getElementById('attendance-date-picker').value;
             renderAttendanceTable();
@@ -606,7 +738,6 @@
             tbody.innerHTML = '';
 
             const todayRecords = attendanceData[selectedDate] || {};
-
             const filteredStudents = students.filter(s => 
                 s.name.toLowerCase().includes(searchQuery) || s.nis.includes(searchQuery)
             );
@@ -662,32 +793,22 @@
         }
 
         function setStudentStatus(studentId, status) {
-            if (!attendanceData[selectedDate]) {
-                attendanceData[selectedDate] = {};
-            }
-            if (!attendanceData[selectedDate][studentId]) {
-                attendanceData[selectedDate][studentId] = { status: 'H', note: '' };
-            }
+            if (!attendanceData[selectedDate]) attendanceData[selectedDate] = {};
+            if (!attendanceData[selectedDate][studentId]) attendanceData[selectedDate][studentId] = { status: 'H', note: '' };
             attendanceData[selectedDate][studentId].status = status;
             saveData();
             renderAttendanceTable();
         }
 
         function updateAttendanceNote(studentId, noteText) {
-            if (!attendanceData[selectedDate]) {
-                attendanceData[selectedDate] = {};
-            }
-            if (!attendanceData[selectedDate][studentId]) {
-                attendanceData[selectedDate][studentId] = { status: 'H', note: '' };
-            }
+            if (!attendanceData[selectedDate]) attendanceData[selectedDate] = {};
+            if (!attendanceData[selectedDate][studentId]) attendanceData[selectedDate][studentId] = { status: 'H', note: '' };
             attendanceData[selectedDate][studentId].note = noteText;
             saveData();
         }
 
         function setAllAttendance(status) {
-            if (!attendanceData[selectedDate]) {
-                attendanceData[selectedDate] = {};
-            }
+            if (!attendanceData[selectedDate]) attendanceData[selectedDate] = {};
             students.forEach(s => {
                 const currentNote = attendanceData[selectedDate][s.id] ? attendanceData[selectedDate][s.id].note : '';
                 attendanceData[selectedDate][s.id] = { status: status, note: currentNote };
@@ -707,7 +828,6 @@
             e.preventDefault();
             const studentId = document.getElementById('case-student-id').value;
             const studentObj = students.find(s => s.id === studentId);
-            
             if (!studentObj) return;
 
             const newCase = {
@@ -727,7 +847,6 @@
             saveData();
             renderCaseTable();
 
-            // Reset Form
             document.getElementById('form-kasus').reset();
             document.getElementById('case-date').value = selectedDate;
         }
@@ -756,13 +875,11 @@
                 const tr = document.createElement('tr');
                 tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
 
-                // Level Badge Style
                 let levelBadge = 'bg-slate-100 text-slate-700';
                 if (c.level === 'Ringan') levelBadge = 'bg-sky-100 text-sky-800 border-sky-200';
                 if (c.level === 'Sedang') levelBadge = 'bg-amber-100 text-amber-800 border-amber-200';
                 if (c.level === 'Berat') levelBadge = 'bg-rose-100 text-rose-800 border-rose-200';
 
-                // Status Badge Style
                 let statusBadge = 'bg-slate-100 text-slate-700';
                 if (c.status === 'Selesai') statusBadge = 'bg-emerald-100 text-emerald-800 border-emerald-200';
                 if (c.status === 'Dalam Proses') statusBadge = 'bg-yellow-100 text-yellow-800 border-yellow-200';
@@ -770,16 +887,16 @@
 
                 tr.innerHTML = `
                     <td class="p-3.5 whitespace-nowrap text-xs text-slate-500 font-mono">${c.date}</td>
-                    <td class="p-3.5 font-semibold text-slate-800">${c.studentName}</td>
+                    <td class="p-3.5 font-semibold text-slate-800">${escapeHtml(c.studentName)}</td>
                     <td class="p-3.5">
-                        <div class="font-medium text-slate-800">${c.title}</div>
-                        <div class="text-xs text-slate-500 mt-0.5 line-clamp-1">${c.desc || '-'}</div>
+                        <div class="font-medium text-slate-800">${escapeHtml(c.title)}</div>
+                        <div class="text-xs text-slate-500 mt-0.5 line-clamp-1">${escapeHtml(c.desc || '-')}</div>
                     </td>
                     <td class="p-3.5 text-center">
                         <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold border ${levelBadge}">${c.level}</span>
                     </td>
                     <td class="p-3.5 text-center font-bold text-slate-700">${c.points}</td>
-                    <td class="p-3.5 text-xs text-slate-600 max-w-xs">${c.action || '-'}</td>
+                    <td class="p-3.5 text-xs text-slate-600 max-w-xs">${escapeHtml(c.action || '-')}</td>
                     <td class="p-3.5 text-center">
                         <span class="px-2.5 py-1 rounded-md text-xs font-semibold border inline-block ${statusBadge}">${c.status}</span>
                     </td>
@@ -838,15 +955,99 @@
             closeCaseDetailModal();
         }
 
+        // ================= PENILAIAN AL-QUR'AN LOGIC =================
+        function saveQuranAssessment(e) {
+            e.preventDefault();
+            const studentId = document.getElementById('quran-student-id').value;
+            const studentObj = students.find(s => s.id === studentId);
+            if (!studentObj) return;
+
+            const newAssessment = {
+                id: 'q_' + Date.now(),
+                studentId: studentId,
+                studentName: studentObj.name,
+                category: document.getElementById('quran-category').value,
+                date: document.getElementById('quran-date').value,
+                surah: document.getElementById('quran-surah').value,
+                smoothness: document.getElementById('quran-smoothness').value,
+                tajweed: document.getElementById('quran-tajweed').value,
+                note: document.getElementById('quran-note').value
+            };
+
+            quranData.unshift(newAssessment);
+            saveData();
+            renderQuranTable();
+
+            document.getElementById('form-quran').reset();
+            document.getElementById('quran-date').value = selectedDate;
+        }
+
+        function renderQuranTable() {
+            const tbody = document.getElementById('quran-table-body');
+            const categoryFilter = document.getElementById('filter-quran-category').value;
+            const searchQuery = document.getElementById('search-quran').value.toLowerCase();
+
+            tbody.innerHTML = '';
+
+            const filteredQuran = quranData.filter(q => {
+                const matchCategory = !categoryFilter || q.category === categoryFilter;
+                const matchQuery = q.studentName.toLowerCase().includes(searchQuery) || q.surah.toLowerCase().includes(searchQuery);
+                return matchCategory && matchQuery;
+            });
+
+            if (filteredQuran.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-slate-400">Belum ada data setoran Al-Qur'an.</td></tr>`;
+                return;
+            }
+
+            filteredQuran.forEach(q => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
+
+                tr.innerHTML = `
+                    <td class="p-3.5 whitespace-nowrap text-xs text-slate-500 font-mono">${q.date}</td>
+                    <td class="p-3.5 font-semibold text-slate-800">${escapeHtml(q.studentName)}</td>
+                    <td class="p-3.5"><span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">${escapeHtml(q.category)}</span></td>
+                    <td class="p-3.5 font-semibold text-islamic-800">${escapeHtml(q.surah)}</td>
+                    <td class="p-3.5 text-center text-xs font-medium">${escapeHtml(q.smoothness)}</td>
+                    <td class="p-3.5 text-center text-xs font-medium">${escapeHtml(q.tajweed)}</td>
+                    <td class="p-3.5 text-xs text-slate-600 max-w-xs">${escapeHtml(q.note || '-')}</td>
+                    <td class="p-3.5 text-center no-print">
+                        <button onclick="deleteQuranAssessment('${q.id}')" title="Hapus" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded transition">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            updateStatistics();
+        }
+
+        function deleteQuranAssessment(id) {
+            quranData = quranData.filter(q => q.id !== id);
+            saveData();
+            renderQuranTable();
+        }
+
         // ================= MANAJEMEN SISWA =================
         function populateStudentDropdown() {
-            const select = document.getElementById('case-student-id');
-            select.innerHTML = '<option value="">-- Pilih Siswa --</option>';
+            const selectCase = document.getElementById('case-student-id');
+            const selectQuran = document.getElementById('quran-student-id');
+            
+            selectCase.innerHTML = '<option value="">-- Pilih Siswa --</option>';
+            selectQuran.innerHTML = '<option value="">-- Pilih Siswa --</option>';
+
             students.forEach(s => {
-                const opt = document.createElement('option');
-                opt.value = s.id;
-                opt.innerText = `${s.name} (${s.nis})`;
-                select.appendChild(opt);
+                const opt1 = document.createElement('option');
+                opt1.value = s.id;
+                opt1.innerText = `${s.name} (${s.nis})`;
+                selectCase.appendChild(opt1);
+
+                const opt2 = document.createElement('option');
+                opt2.value = s.id;
+                opt2.innerText = `${s.name} (${s.nis})`;
+                selectQuran.appendChild(opt2);
             });
         }
 
@@ -913,12 +1114,16 @@
             });
             const counts = {H:0,I:0,S:0,A:0,T:0}; attendanceRows.forEach(r => counts[r.status] = (counts[r.status] || 0) + 1);
             const cases = caseData.filter(c => c.studentId === studentId).sort((a,b) => (b.date || '').localeCompare(a.date || ''));
+            const qurans = quranData.filter(q => q.studentId === studentId).sort((a,b) => (b.date || '').localeCompare(a.date || ''));
+
             const total = attendanceRows.length; const present = counts.H + counts.T; const pct = total ? Math.round(present / total * 100) : 0;
             const attendanceHtml = attendanceRows.length ? attendanceRows.map(r => `<tr><td>${escapeHtml(r.date)}</td><td>${escapeHtml(r.status)}</td><td>${escapeHtml(r.note || '-')}</td></tr>`).join('') : '<tr><td colspan="3">Belum ada data presensi tersimpan.</td></tr>';
             const caseHtml = cases.length ? cases.map(c => `<tr><td>${escapeHtml(c.date)}</td><td>${escapeHtml(c.title)}</td><td>${escapeHtml(c.level)}</td><td>${escapeHtml(c.points)}</td><td>${escapeHtml(c.desc || '-')}</td><td>${escapeHtml(c.action || '-')}</td><td>${escapeHtml(c.status)}</td></tr>`).join('') : '<tr><td colspan="7">Belum ada catatan kasus.</td></tr>';
+            const quranHtml = qurans.length ? qurans.map(q => `<tr><td>${escapeHtml(q.date)}</td><td>${escapeHtml(q.category)}</td><td>${escapeHtml(q.surah)}</td><td>${escapeHtml(q.smoothness)}</td><td>${escapeHtml(q.tajweed)}</td><td>${escapeHtml(q.note || '-')}</td></tr>`).join('') : '<tr><td colspan="6">Belum ada riwayat setoran Al-Qur\'an.</td></tr>';
+
             const photo = student.photo ? `<img src="${student.photo}" style="width:90px;height:90px;object-fit:cover;border-radius:50%;border:2px solid #ddd">` : '';
             const win = window.open('', '_blank'); if (!win) { alert('Izinkan pop-up untuk mencetak laporan.'); return; }
-            win.document.write(`<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Laporan ${escapeHtml(student.name)}</title><style>body{font:12px Arial,sans-serif;color:#222;margin:28px}h1,h2{text-align:center;margin:4px}h1{font-size:17px}h2{font-size:14px;margin-bottom:20px}.identity{display:flex;align-items:center;gap:18px;border:1px solid #bbb;padding:14px;margin:18px 0}.summary{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}.box{border:1px solid #bbb;padding:9px;text-align:center}.box b{display:block;font-size:18px;margin-top:5px}table{width:100%;border-collapse:collapse;margin:10px 0 22px}th,td{border:1px solid #999;padding:7px;text-align:left;vertical-align:top}th{background:#e8f5ee}h3{margin:18px 0 7px}.sign{display:flex;justify-content:space-between;margin-top:55px;text-align:center}.sign div{width:220px}@media print{body{margin:15mm}.no-print{display:none}}</style></head><body><h1>SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM</h1><h2>LAPORAN INDIVIDU MURID — ${escapeHtml(classes.find(c=>c.id===activeClassId)?.name || '')}</h2><div class="identity">${photo}<div><b>Nama:</b> ${escapeHtml(student.name)}<br><b>NIS:</b> ${escapeHtml(student.nis)}<br><b>Kelas:</b> ${escapeHtml(classes.find(c=>c.id===activeClassId)?.name || '')}<br><b>Tanggal cetak:</b> ${new Date().toLocaleDateString('id-ID')}</div></div><h3>Ringkasan Kehadiran</h3><div class="summary"><div class="box">Hadir<b>${counts.H}</b></div><div class="box">Izin<b>${counts.I}</b></div><div class="box">Sakit<b>${counts.S}</b></div><div class="box">Alpa<b>${counts.A}</b></div><div class="box">Terlambat<b>${counts.T}</b></div></div><p><b>Persentase hadir (H + T):</b> ${pct}% &nbsp; | &nbsp; <b>Jumlah hari tercatat:</b> ${total}</p><h3>Rincian Presensi</h3><table><thead><tr><th>Tanggal</th><th>Status</th><th>Keterangan</th></tr></thead><tbody>${attendanceHtml}</tbody></table><h3>Riwayat Jurnal Kasus & Pembinaan</h3><table><thead><tr><th>Tanggal</th><th>Kejadian</th><th>Tingkat</th><th>Poin</th><th>Kronologi</th><th>Tindakan Guru</th><th>Status</th></tr></thead><tbody>${caseHtml}</tbody></table><div class="sign"><div>Mengetahui,<br>Kepala Sekolah<br><br><br>(................................)</div><div>Mataram, ${new Date().toLocaleDateString('id-ID')}<br>Wali Kelas<br><br><br><b>Muhammad Kazuwaini, Lc.</b></div></div><script>window.onload=()=>window.print();<\/script></body></html>`);
+            win.document.write(`<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Laporan ${escapeHtml(student.name)}</title><style>body{font:12px Arial,sans-serif;color:#222;margin:28px}h1,h2{text-align:center;margin:4px}h1{font-size:17px}h2{font-size:14px;margin-bottom:20px}.identity{display:flex;align-items:center;gap:18px;border:1px solid #bbb;padding:14px;margin:18px 0}.summary{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:12px 0}.box{border:1px solid #bbb;padding:9px;text-align:center}.box b{display:block;font-size:18px;margin-top:5px}table{width:100%;border-collapse:collapse;margin:10px 0 22px}th,td{border:1px solid #999;padding:7px;text-align:left;vertical-align:top}th{background:#e8f5ee}h3{margin:18px 0 7px}.sign{display:flex;justify-content:space-between;margin-top:55px;text-align:center}.sign div{width:220px}@media print{body{margin:15mm}.no-print{display:none}}</style></head><body><h1>SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM</h1><h2>LAPORAN INDIVIDU MURID — ${escapeHtml(classes.find(c=>c.id===activeClassId)?.name || '')}</h2><div class="identity">${photo}<div><b>Nama:</b> ${escapeHtml(student.name)}<br><b>NIS:</b> ${escapeHtml(student.nis)}<br><b>Kelas:</b> ${escapeHtml(classes.find(c=>c.id===activeClassId)?.name || '')}<br><b>Tanggal cetak:</b> ${new Date().toLocaleDateString('id-ID')}</div></div><h3>Ringkasan Kehadiran</h3><div class="summary"><div class="box">Hadir<b>${counts.H}</b></div><div class="box">Izin<b>${counts.I}</b></div><div class="box">Sakit<b>${counts.S}</b></div><div class="box">Alpa<b>${counts.A}</b></div><div class="box">Terlambat<b>${counts.T}</b></div></div><p><b>Persentase hadir (H + T):</b> ${pct}% &nbsp; | &nbsp; <b>Jumlah hari tercatat:</b> ${total}</p><h3>Rincian Presensi</h3><table><thead><tr><th>Tanggal</th><th>Status</th><th>Keterangan</th></tr></thead><tbody>${attendanceHtml}</tbody></table><h3>Riwayat Setoran & Penilaian Al-Qur'an</h3><table><thead><tr><th>Tanggal</th><th>Kategori</th><th>Surah & Ayat</th><th>Kelancaran</th><th>Tajwid & Makhraj</th><th>Catatan</th></tr></thead><tbody>${quranHtml}</tbody></table><h3>Riwayat Jurnal Kasus & Pembinaan</h3><table><thead><tr><th>Tanggal</th><th>Kejadian</th><th>Tingkat</th><th>Poin</th><th>Kronologi</th><th>Tindakan Guru</th><th>Status</th></tr></thead><tbody>${caseHtml}</tbody></table><div class="sign"><div>Mengetahui,<br>Kepala Sekolah<br><br><br>(................................)</div><div>Mataram, ${new Date().toLocaleDateString('id-ID')}<br>Wali Kelas<br><br><br><b>Muhammad Kazuwaini, Lc.</b></div></div><script>window.onload=()=>window.print();<\/script></body></html>`);
             win.document.close();
         }
 
@@ -970,7 +1175,7 @@
             document.getElementById('stat-sakit').innerText = sakit;
             document.getElementById('stat-alpa-terlambat').innerText = alpaTerlambat;
 
-            document.getElementById('stat-total-kasus').innerText = caseData.length;
+            document.getElementById('stat-total-quran').innerText = quranData.length;
         }
     </script>
 </body>
