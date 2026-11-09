@@ -1416,8 +1416,25 @@
             container.innerHTML = html;
         }
 
-        // --- REKAPAN PEKANAN & SPREADSHEET ---
-        function renderWeeklyReport() {
+        <!-- REKAPAN PEKANAN & SPREADSHEET -->
+    <script>
+        // --- FUNGSI SINKRONISASI KE NEON DATABASE ---
+        async function saveDataToNeon(payload) {
+            try {
+                const response = await fetch('/api/jurnal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) {
+                    console.error("Gagal menyimpan ke database Neon");
+                }
+            } catch (error) {
+                console.error("Kesalahan jaringan:", error);
+            }
+        }
+
+        async function renderWeeklyReport() {
             const monthIdx = parseInt(document.getElementById('rekap-month').value);
             const weekNum = parseInt(document.getElementById('rekap-week').value);
             const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
@@ -1574,7 +1591,13 @@
             const name = document.getElementById('new-student-name').value.trim();
             if (!appData.classes[appData.activeClass]) appData.classes[appData.activeClass] = [];
             const newId = 'student_' + Date.now() + Math.floor(Math.random()*1000);
-            appData.classes[appData.activeClass].push({ id: newId, nis, name });
+            
+            const newStudent = { id: newId, nis, name };
+            appData.classes[appData.activeClass].push(newStudent);
+            
+            // Kirim ke database Neon
+            saveDataToNeon({ tanggal: new Date().toISOString().split('T')[0], nis, name, status: 'Siswa Baru', catatan: appData.activeClass });
+            
             saveData();
             renderModalStudentList();
             document.getElementById('new-student-nis').value = '';
@@ -1617,5 +1640,3 @@
             document.getElementById('stat-total-quran').innerText = appData.quran.filter(q => q.className === appData.activeClass).length;
         }
     </script>
-</body>
-</html>
