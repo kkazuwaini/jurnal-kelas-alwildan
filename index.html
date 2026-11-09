@@ -98,10 +98,10 @@
                 <!-- Action Top Buttons -->
                 <div class="flex items-center gap-2 flex-wrap">
                     <button onclick="syncToGoogleSheets()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-2 rounded-lg text-sm font-semibold transition flex items-center gap-2 shadow border border-emerald-400">
-                        <i class="fa-solid fa-file-excel"></i> Ekspor / Sync Spreadsheet
+                        <i class="fa-solid fa-file-excel"></i> Sync Spreadsheet
                     </button>
                     <button onclick="window.print()" class="bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 border border-white/20">
-                        <i class="fa-solid fa-print"></i> Cetak Halaman
+                        <i class="fa-solid fa-print"></i> Cetak
                     </button>
                     <button onclick="addClass()" class="bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 border border-white/20">
                         <i class="fa-solid fa-layer-group"></i> Tambah Kelas
@@ -112,29 +112,29 @@
                 </div>
             </div>
 
-            <!-- RINGKASAN STATISTIK QUICK VIEW -->
+            <!-- STATISTIK QUICK VIEW -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 mt-6">
                 <div class="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/10">
                     <div class="text-xs text-islamic-100">Total Siswa</div>
                     <div class="text-2xl font-bold text-white mt-1" id="stat-total-siswa">0</div>
                 </div>
-                <div class="bg-emerald-500/20 backdrop-blur rounded-xl p-3 border border-emerald-400/30">
+                <div class="bg-emerald-500/25 backdrop-blur rounded-xl p-3 border border-emerald-400/35">
                     <div class="text-xs text-emerald-200">Hadir (H)</div>
                     <div class="text-2xl font-bold text-emerald-300 mt-1" id="stat-hadir">0</div>
                 </div>
-                <div class="bg-blue-500/20 backdrop-blur rounded-xl p-3 border border-blue-400/30">
+                <div class="bg-blue-500/25 backdrop-blur rounded-xl p-3 border border-blue-400/35">
                     <div class="text-xs text-blue-200">Izin (I)</div>
                     <div class="text-2xl font-bold text-blue-300 mt-1" id="stat-izin">0</div>
                 </div>
-                <div class="bg-amber-500/20 backdrop-blur rounded-xl p-3 border border-amber-400/30">
+                <div class="bg-amber-500/25 backdrop-blur rounded-xl p-3 border border-amber-400/35">
                     <div class="text-xs text-amber-200">Sakit (S)</div>
                     <div class="text-2xl font-bold text-amber-300 mt-1" id="stat-sakit">0</div>
                 </div>
-                <div class="bg-rose-500/20 backdrop-blur rounded-xl p-3 border border-rose-400/30">
+                <div class="bg-rose-500/25 backdrop-blur rounded-xl p-3 border border-rose-400/35">
                     <div class="text-xs text-rose-200">Alpa / Terlambat</div>
                     <div class="text-2xl font-bold text-rose-300 mt-1" id="stat-alpa-terlambat">0</div>
                 </div>
-                <div class="bg-purple-500/20 backdrop-blur rounded-xl p-3 border border-purple-400/30">
+                <div class="bg-purple-500/25 backdrop-blur rounded-xl p-3 border border-purple-400/35">
                     <div class="text-xs text-purple-200">Total Setoran Qur'an</div>
                     <div class="text-2xl font-bold text-purple-300 mt-1" id="stat-total-quran">0</div>
                 </div>
@@ -142,7 +142,7 @@
         </div>
     </header>
 
-    <!-- PRINT KOP SURAT HEADER -->
+    <!-- PRINT KOP SURAT -->
     <div class="print-only p-6 border-b-2 border-slate-900 mb-6">
         <div class="flex items-center justify-between">
             <div class="w-16 h-16 shrink-0">
@@ -155,7 +155,7 @@
             <div class="text-center flex-grow px-4">
                 <h1 class="text-xl font-extrabold uppercase tracking-wide">SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM</h1>
                 <p class="text-xs text-slate-600">Jl. Terusan Majapahit No. 20, Mataram, Nusa Tenggara Barat</p>
-                <h2 class="text-base font-bold text-slate-800 mt-2 uppercase underline" id="print-document-title">REKAPITULASI JURNAL KELAS & AL-QUR'AN</h2>
+                <h2 class="text-base font-bold text-slate-800 mt-2 uppercase underline" id="print-document-title">LAPORAN JURNAL KELAS & KASUS SISWA</h2>
                 <p class="text-xs text-slate-500">Kelas: <span id="print-header-class">KELAS 2 INTER 1</span> | Tanggal Cetak: <span id="print-date"></span></p>
             </div>
             <div class="w-16 h-16 shrink-0 opacity-0"></div>
@@ -177,36 +177,38 @@
         </div>
     </div>
 
-    <!-- MAIN CONTENT CONTAINERS -->
+    <!-- MAIN CONTENT -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow w-full">
         
         <!-- NAV TABS -->
         <div class="flex border-b border-slate-200 mb-6 no-print overflow-x-auto">
-            <button id="tab-btn-kehadiran" onclick="switchTab('kehadiran')" class="py-3 px-5 font-semibold text-sm border-b-2 border-islamic-600 text-islamic-700 flex items-center gap-2 transition whitespace-nowrap">
+            <button id="tab-btn-kehadiran" onclick="switchTab('kehadiran')" class="py-3 px-4 font-semibold text-sm border-b-2 border-islamic-600 text-islamic-700 flex items-center gap-2 transition whitespace-nowrap">
                 <i class="fa-solid fa-clipboard-user"></i> 1. Presensi Harian
             </button>
-            <button id="tab-btn-kasus" onclick="switchTab('kasus')" class="py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
-                <i class="fa-solid fa-book-bookmark"></i> 2. Jurnal Kasus & Perilaku
+            <button id="tab-btn-kasus" onclick="switchTab('kasus')" class="py-3 px-4 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
+                <i class="fa-solid fa-book-bookmark"></i> 2. Jurnal Kasus
             </button>
-            <button id="tab-btn-quran" onclick="switchTab('quran')" class="py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
-                <i class="fa-solid fa-book-quran"></i> 3. Penilaian Al-Qur'an
+            <button id="tab-btn-rekap-kasus" onclick="switchTab('rekap-kasus')" class="py-3 px-4 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
+                <i class="fa-solid fa-id-card-clip text-islamic-600"></i> 3. Rekap Kasus Per Siswa <span id="badge-total-kasus" class="bg-rose-100 text-rose-800 text-xs font-bold px-2 py-0.5 rounded-full ml-1">0</span>
             </button>
-            <button id="tab-btn-rekap" onclick="switchTab('rekap')" class="py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
-                <i class="fa-solid fa-file-invoice"></i> 4. Rekapan Per Pekan (PDF)
+            <button id="tab-btn-quran" onclick="switchTab('quran')" class="py-3 px-4 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
+                <i class="fa-solid fa-book-quran"></i> 4. Penilaian Al-Qur'an
             </button>
-            <button id="tab-btn-sheets" onclick="switchTab('sheets')" class="py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
-                <i class="fa-solid fa-table text-emerald-600"></i> 5. Integrasi Google Sheets
+            <button id="tab-btn-rekap" onclick="switchTab('rekap')" class="py-3 px-4 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
+                <i class="fa-solid fa-file-invoice"></i> 5. Rekapan Pekan (PDF)
+            </button>
+            <button id="tab-btn-sheets" onclick="switchTab('sheets')" class="py-3 px-4 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap">
+                <i class="fa-solid fa-table text-emerald-600"></i> 6. Google Sheets
             </button>
         </div>
 
-        <!-- TAB 1: DAFTAR KEHADIRAN -->
+        <!-- TAB 1: PRESENSI -->
         <section id="tab-kehadiran" class="space-y-4">
             <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4 no-print">
                 <div class="relative w-full md:w-72">
                     <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
                     <input type="text" id="search-siswa" oninput="renderAttendanceTable()" placeholder="Cari nama siswa..." class="w-full pl-9 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-islamic-500">
                 </div>
-
                 <div class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-end">
                     <button onclick="setAllAttendance('H')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
                         <i class="fa-solid fa-check-double"></i> Hadir Semua
@@ -230,21 +232,18 @@
                                 <th class="p-3.5">Catatan Kehadiran / Keterangan</th>
                             </tr>
                         </thead>
-                        <tbody id="attendance-table-body" class="divide-y divide-slate-100 text-sm">
-                            <!-- JS Inject -->
-                        </tbody>
+                        <tbody id="attendance-table-body" class="divide-y divide-slate-100 text-sm"></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 2: JURNAL KASUS & PERILAKU -->
+        <!-- TAB 2: JURNAL KASUS -->
         <section id="tab-kasus" class="space-y-6 hidden">
             <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 no-print">
                 <h3 class="text-base font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-2">
-                    <i class="fa-solid fa-pen-to-square text-islamic-600"></i> Form Catatan Jurnal Kasus / Perilaku
+                    <i class="fa-solid fa-pen-to-square text-islamic-600"></i> Form Catatan Jurnal Kasus / Perilaku Siswa
                 </h3>
-                
                 <form id="form-kasus" onsubmit="saveCase(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Siswa *</label>
@@ -252,12 +251,10 @@
                             <option value="">-- Pilih Siswa --</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Pelanggaran / Kejadian *</label>
-                        <input type="text" id="case-title" placeholder="Contoh: Mengganggu teman, Terlambat masuk" required class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
+                        <input type="text" id="case-title" placeholder="Contoh: Mengganggu teman, Terlambat" required class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Tingkat Pelanggaran *</label>
                         <select id="case-level" required class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
@@ -266,12 +263,10 @@
                             <option value="Berat">Berat</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Jumlah Poin Pelanggaran</label>
                         <input type="number" id="case-points" min="1" value="1" class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Status Penanganan</label>
                         <select id="case-status" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
@@ -280,22 +275,18 @@
                             <option value="Tindak Lanjut Orang Tua/BK">Tindak Lanjut Ortud/BK</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Kejadian</label>
                         <input type="date" id="case-date" required class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
                     </div>
-
                     <div class="md:col-span-2">
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Deskripsi & Kronologi Kejadian</label>
                         <textarea id="case-desc" rows="2" placeholder="Jelaskan secara ringkas kronologi kejadian..." class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none"></textarea>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Tindakan / Penanganan Guru</label>
                         <textarea id="case-action" rows="2" placeholder="Nasihat, konseling individu, dsb..." class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none"></textarea>
                     </div>
-
                     <div class="md:col-span-3 flex justify-end">
                         <button type="submit" class="bg-islamic-600 hover:bg-islamic-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition flex items-center gap-2 shadow">
                             <i class="fa-solid fa-save"></i> Simpan Catatan Kasus
@@ -325,7 +316,6 @@
                         <input type="text" id="search-case" oninput="renderCaseTable()" placeholder="Cari nama/kejadian..." class="border border-slate-300 rounded-lg text-xs p-2 focus:ring-2 focus:ring-islamic-500 w-40">
                     </div>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -340,15 +330,33 @@
                                 <th class="p-3.5 text-center no-print">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="case-table-body" class="divide-y divide-slate-100 text-sm">
-                            <!-- JS Inject -->
-                        </tbody>
+                        <tbody id="case-table-body" class="divide-y divide-slate-100 text-sm"></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 3: PENILAIAN AL-QUR'AN (DENGAN NILAI ANGKA & EDIT DATA) -->
+        <!-- TAB 3: REKAP KASUS TIAP SISWA (BARU) -->
+        <section id="tab-rekap-kasus" class="space-y-6 hidden">
+            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4 no-print">
+                <div>
+                    <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-id-card-clip text-islamic-600"></i> Rekapitulasi Jurnal Kasus Tiap Siswa
+                    </h3>
+                    <p class="text-xs text-slate-500 mt-1">Daftar seluruh siswa di kelas beserta akumulasi poin dan riwayat pembinaan disiplin.</p>
+                </div>
+                <div class="relative w-full md:w-72">
+                    <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="search-rekap-kasus" oninput="renderStudentCaseSummary()" placeholder="Cari siswa..." class="w-full pl-9 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-islamic-500">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="student-case-cards-container">
+                <!-- JS Inject Student Cards -->
+            </div>
+        </section>
+
+        <!-- TAB 4: PENILAIAN AL-QUR'AN -->
         <section id="tab-quran" class="space-y-6 hidden">
             <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 no-print" id="quran-form-container">
                 <div class="flex items-center justify-between border-b pb-2 mb-4">
@@ -359,17 +367,14 @@
                         <i class="fa-solid fa-xmark"></i> Batal Edit
                     </button>
                 </div>
-                
                 <form id="form-quran" onsubmit="saveQuranAssessment(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input type="hidden" id="quran-edit-id" value="">
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Siswa *</label>
                         <select id="quran-student-id" required class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
                             <option value="">-- Pilih Siswa --</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Penilaian *</label>
                         <select id="quran-category" required class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
@@ -379,28 +384,22 @@
                             <option value="Ujian Surah">Ujian Surah</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Tanggal Setoran *</label>
                         <input type="date" id="quran-date" required class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Surah & Ayat / Halaman *</label>
                         <input type="text" id="quran-surah" placeholder="Contoh: An-Naba' : 1 - 20" required class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
                     </div>
-
-                    <!-- FITUR SKOR ANGKA (0-100) -->
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Nilai Angka (0 - 100) *</label>
                         <input type="number" id="quran-score" min="0" max="100" placeholder="85" required oninput="autoCalculateGrade()" class="w-full border border-slate-300 rounded-lg p-2 text-sm font-bold text-islamic-700 focus:ring-2 focus:ring-islamic-500 focus:outline-none">
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Predikat Otomatis</label>
                         <input type="text" id="quran-grade-display" readonly placeholder="Otomatis terisi..." class="w-full border border-slate-200 bg-slate-100 rounded-lg p-2 text-sm font-bold text-slate-700">
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Kelancaran Hafalan</label>
                         <select id="quran-smoothness" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
@@ -410,7 +409,6 @@
                             <option value="D (Kurang Lancar)">D (Kurang Lancar)</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Tajwid & Makhraj</label>
                         <select id="quran-tajweed" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
@@ -420,17 +418,14 @@
                             <option value="D (Perlu Bimbingan)">D (Perlu Bimbingan)</option>
                         </select>
                     </div>
-
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Penguji / Guru Al-Qur'an</label>
                         <input type="text" id="quran-teacher" placeholder="Ustadz / Ustadzah..." class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none">
                     </div>
-
                     <div class="md:col-span-3">
                         <label class="block text-xs font-semibold text-slate-600 mb-1">Catatan Evaluasi / Pesan Penguji</label>
-                        <textarea id="quran-note" rows="2" placeholder="Perhatikan ghunnah dan mad thabi'i pada ayat 10-15..." class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none"></textarea>
+                        <textarea id="quran-note" rows="2" placeholder="Perhatikan ghunnah dan mad thabi'i..." class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-islamic-500 focus:outline-none"></textarea>
                     </div>
-
                     <div class="md:col-span-3 flex justify-end">
                         <button type="submit" id="btn-save-quran" class="bg-islamic-600 hover:bg-islamic-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition flex items-center gap-2 shadow">
                             <i class="fa-solid fa-save"></i> Simpan Penilaian Al-Qur'an
@@ -455,7 +450,6 @@
                         <input type="text" id="search-quran" oninput="renderQuranTable()" placeholder="Cari nama/surah..." class="border border-slate-300 rounded-lg text-xs p-2 focus:ring-2 focus:ring-islamic-500 w-40">
                     </div>
                 </div>
-
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
@@ -471,15 +465,13 @@
                                 <th class="p-3.5 text-center no-print">Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="quran-table-body" class="divide-y divide-slate-100 text-sm">
-                            <!-- JS Inject -->
-                        </tbody>
+                        <tbody id="quran-table-body" class="divide-y divide-slate-100 text-sm"></tbody>
                     </table>
                 </div>
             </div>
         </section>
 
-        <!-- TAB 4: REKAPAN PER PEKAN & DOWNLOAD PDF -->
+        <!-- TAB 5: REKAPITULASI PEKANAN -->
         <section id="tab-rekap" class="space-y-6 hidden">
             <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 no-print">
                 <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -518,13 +510,11 @@
                 </div>
             </div>
 
-            <!-- Preview Rekapan Mingguan -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6 card-box" id="weekly-report-container">
                 <div class="text-center border-b pb-4">
                     <h2 class="text-lg font-bold text-slate-800 uppercase tracking-wide">LAPORAN REKAPITULASI PEKANAN SISWA</h2>
                     <p class="text-xs font-semibold text-islamic-700 uppercase" id="rekap-header-subtitle">PEKAN II - NOVEMBER 2026</p>
                 </div>
-
                 <div>
                     <h4 class="text-xs font-bold uppercase text-slate-700 mb-3 flex items-center gap-2">
                         <i class="fa-solid fa-table text-islamic-600"></i> Ringkasan Rekap Per Siswa
@@ -545,13 +535,10 @@
                                     <th class="p-2 border border-slate-200 text-center">Rata-Rata Nilai Qur'an</th>
                                 </tr>
                             </thead>
-                            <tbody id="weekly-rekap-tbody" class="divide-y divide-slate-200">
-                                <!-- JS Inject -->
-                            </tbody>
+                            <tbody id="weekly-rekap-tbody" class="divide-y divide-slate-200"></tbody>
                         </table>
                     </div>
                 </div>
-
                 <div class="grid grid-cols-2 gap-8 pt-8 text-center text-xs text-slate-700 font-medium">
                     <div>
                         <p>Mengetahui,</p>
@@ -569,43 +556,39 @@
             </div>
         </section>
 
-        <!-- TAB 5: INTEGRASI GOOGLE SHEETS / CLOUD REKAPAN -->
+        <!-- TAB 6: GOOGLE SHEETS & EKSPOR -->
         <section id="tab-sheets" class="space-y-6 hidden">
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
                 <div class="border-b pb-4">
                     <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-file-csv text-emerald-600"></i> Pengaturan Webhook Google Sheets & Ekspor CSV
+                        <i class="fa-solid fa-file-csv text-emerald-600"></i> Integrasi Google Sheets & Ekspor Data
                     </h3>
-                    <p class="text-xs text-slate-500 mt-1">Kirim seluruh rekap harian, presensi, jurnal pelanggaran, dan setoran Qur'an ke Google Sheets secara otomatis.</p>
+                    <p class="text-xs text-slate-500 mt-1">Kirim seluruh rekap harian, presensi, dan jurnal kasus ke Google Sheets.</p>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Fitur Ekspor CSV / Excel Langsung -->
                     <div class="bg-emerald-50 p-5 rounded-xl border border-emerald-200 space-y-3">
                         <h4 class="font-bold text-emerald-900 text-sm flex items-center gap-2">
-                            <i class="fa-solid fa-download"></i> Download Rekap (.CSV / Spreadsheet)
+                            <i class="fa-solid fa-download"></i> Download CSV / Excel
                         </h4>
-                        <p class="text-xs text-emerald-700">Unduh file CSV rekapitulasi data presensi dan penilaian Al-Qur'an secara offline untuk di-import langsung ke Microsoft Excel atau Google Sheets.</p>
+                        <p class="text-xs text-emerald-700">Unduh data presensi atau nilai Al-Qur'an secara offline untuk Excel.</p>
                         <div class="flex flex-wrap gap-2 pt-2">
                             <button onclick="downloadCSV('attendance')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
-                                <i class="fa-solid fa-file-csv"></i> Download CSV Presensi
+                                <i class="fa-solid fa-file-csv"></i> CSV Presensi
                             </button>
                             <button onclick="downloadCSV('quran')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
-                                <i class="fa-solid fa-file-csv"></i> Download CSV Nilai Qur'an
+                                <i class="fa-solid fa-file-csv"></i> CSV Nilai Qur'an
                             </button>
                         </div>
                     </div>
-
-                    <!-- Fitur Cloud Synchronization / Apps Script Webhook -->
                     <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
                         <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
                             <i class="fa-solid fa-cloud-arrow-up text-blue-600"></i> Cloud Webhook Google Sheets
                         </h4>
-                        <p class="text-xs text-slate-500">Masukkan Webhook App Script Google Sheets milik Ustadz untuk pengiriman data real-time.</p>
+                        <p class="text-xs text-slate-500">Masukkan Webhook URL App Script Google Sheets.</p>
                         <input type="text" id="webhook-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full border border-slate-300 rounded-lg p-2 text-xs font-mono focus:ring-2 focus:ring-emerald-500">
                         <div class="flex justify-end">
                             <button onclick="saveWebhookURL()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold transition">
-                                Simpan Webhook URL
+                                Simpan Webhook
                             </button>
                         </div>
                     </div>
@@ -615,10 +598,30 @@
 
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs border-t border-slate-700 mt-8 no-print">
-        <p>© 2026 SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM — Jurnal Digital & Penilaian Al-Qur'an</p>
-    </footer>
+    <!-- MODAL DETAIL REKAP KASUS PER SISWA -->
+    <div id="modal-student-case-detail" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden no-print">
+        <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl mx-4 overflow-hidden max-h-[90vh] flex flex-col">
+            <div class="bg-islamic-800 text-white p-4 flex items-center justify-between">
+                <h3 class="font-bold text-base flex items-center gap-2">
+                    <i class="fa-solid fa-id-card-clip"></i> Rekap Jurnal Kasus: <span id="modal-detail-student-name"></span>
+                </h3>
+                <button onclick="closeStudentCaseModal()" class="text-white/80 hover:text-white text-lg font-bold">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-4 flex-grow" id="modal-detail-student-content">
+                <!-- Content injected dynamically -->
+            </div>
+            <div class="bg-slate-50 px-6 py-3 border-t border-slate-200 flex justify-between items-center">
+                <button onclick="window.print()" class="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-semibold flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i> Cetak Rekap Siswa Ini
+                </button>
+                <button onclick="closeStudentCaseModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
 
     <!-- MODAL MANAJEMEN SISWA -->
     <div id="modal-siswa" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden no-print">
@@ -631,7 +634,6 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-
             <div class="p-6 overflow-y-auto space-y-6 flex-grow">
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                     <h4 class="text-xs font-bold uppercase text-slate-700 mb-3"><i class="fa-solid fa-user-plus text-islamic-600"></i> Tambah Siswa Baru</h4>
@@ -651,7 +653,6 @@
                         </div>
                     </form>
                 </div>
-
                 <div>
                     <h4 class="text-xs font-bold uppercase text-slate-700 mb-2">Daftar Siswa Saat Ini</h4>
                     <div class="border border-slate-200 rounded-xl overflow-hidden max-h-60 overflow-y-auto">
@@ -664,14 +665,11 @@
                                     <th class="p-3 text-center w-20">Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody id="modal-student-list" class="divide-y divide-slate-100">
-                                <!-- Dynamic rows -->
-                            </tbody>
+                            <tbody id="modal-student-list" class="divide-y divide-slate-100"></tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
             <div class="bg-slate-50 px-6 py-3 border-t border-slate-200 flex justify-end">
                 <button onclick="closeManageStudentsModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold">
                     Tutup & Simpan
@@ -680,9 +678,14 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIK APLIKASI -->
+    <!-- FOOTER -->
+    <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs border-t border-slate-700 mt-8 no-print">
+        <p>© 2026 SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM — Jurnal Digital & Penilaian Al-Qur'an</p>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        let appData = JSON.parse(localStorage.getItem('alwildan_jurnal_v2_data')) || {
+        let appData = JSON.parse(localStorage.getItem('alwildan_jurnal_v3_data')) || {
             activeClass: "Kelas 2 Inter 1",
             webhookUrl: "",
             classes: {
@@ -717,7 +720,7 @@
         };
 
         function saveData() {
-            localStorage.setItem('alwildan_jurnal_v2_data', JSON.stringify(appData));
+            localStorage.setItem('alwildan_jurnal_v3_data', JSON.stringify(appData));
             refreshAllViews();
         }
 
@@ -776,15 +779,17 @@
         }
 
         function switchTab(tabName) {
-            ['kehadiran', 'kasus', 'quran', 'rekap', 'sheets'].forEach(t => {
+            ['kehadiran', 'kasus', 'rekap-kasus', 'quran', 'rekap', 'sheets'].forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
-                document.getElementById(`tab-btn-${t}`).className = "py-3 px-5 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap";
+                document.getElementById(`tab-btn-${t}`).className = "py-3 px-4 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap";
             });
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
-            document.getElementById(`tab-btn-${tabName}`).className = "py-3 px-5 font-semibold text-sm border-b-2 border-islamic-600 text-islamic-700 flex items-center gap-2 transition whitespace-nowrap";
+            document.getElementById(`tab-btn-${tabName}`).className = "py-3 px-4 font-semibold text-sm border-b-2 border-islamic-600 text-islamic-700 flex items-center gap-2 transition whitespace-nowrap";
 
             if (tabName === 'rekap') {
                 renderWeeklyReport();
+            } else if (tabName === 'rekap-kasus') {
+                renderStudentCaseSummary();
             }
         }
 
@@ -792,6 +797,7 @@
             populateStudentDropdowns();
             renderAttendanceTable();
             renderCaseTable();
+            renderStudentCaseSummary();
             renderQuranTable();
             updateStatistics();
         }
@@ -820,19 +826,15 @@
             quranSelect.value = currentQuranVal;
         }
 
-        function changeAttendanceDate() {
-            renderAttendanceTable();
-        }
-
+        // --- PRESENSI ---
+        function changeAttendanceDate() { renderAttendanceTable(); }
         function renderAttendanceTable() {
             const tbody = document.getElementById('attendance-table-body');
             const searchKeyword = document.getElementById('search-siswa').value.toLowerCase();
             const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
             const students = getActiveStudents();
 
-            if (!appData.attendance[dateVal]) {
-                appData.attendance[dateVal] = {};
-            }
+            if (!appData.attendance[dateVal]) appData.attendance[dateVal] = {};
 
             let html = '';
             let filtered = students.filter(s => s.name.toLowerCase().includes(searchKeyword) || s.nis.toLowerCase().includes(searchKeyword));
@@ -843,9 +845,7 @@
             }
 
             filtered.forEach((s, index) => {
-                if (!appData.attendance[dateVal][s.id]) {
-                    appData.attendance[dateVal][s.id] = { status: 'H', note: '' };
-                }
+                if (!appData.attendance[dateVal][s.id]) appData.attendance[dateVal][s.id] = { status: 'H', note: '' };
                 const att = appData.attendance[dateVal][s.id];
 
                 html += `
@@ -878,7 +878,6 @@
             const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
             if (!appData.attendance[dateVal]) appData.attendance[dateVal] = {};
             if (!appData.attendance[dateVal][studentId]) appData.attendance[dateVal][studentId] = { status: 'H', note: '' };
-            
             appData.attendance[dateVal][studentId].status = status;
             saveData();
             renderAttendanceTable();
@@ -888,7 +887,6 @@
             const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
             if (!appData.attendance[dateVal]) appData.attendance[dateVal] = {};
             if (!appData.attendance[dateVal][studentId]) appData.attendance[dateVal][studentId] = { status: 'H', note: '' };
-            
             appData.attendance[dateVal][studentId].note = note;
             saveData();
         }
@@ -896,7 +894,6 @@
         function setAllAttendance(status) {
             const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
             if (!appData.attendance[dateVal]) appData.attendance[dateVal] = {};
-            
             getActiveStudents().forEach(s => {
                 if (!appData.attendance[dateVal][s.id]) appData.attendance[dateVal][s.id] = { status: 'H', note: '' };
                 appData.attendance[dateVal][s.id].status = status;
@@ -914,6 +911,7 @@
             }
         }
 
+        // --- JURNAL KASUS & REKAP KASUS TIAP SISWA ---
         function saveCase(e) {
             e.preventDefault();
             const newCase = {
@@ -928,7 +926,6 @@
                 desc: document.getElementById('case-desc').value,
                 action: document.getElementById('case-action').value
             };
-
             appData.cases.unshift(newCase);
             saveData();
             document.getElementById('form-kasus').reset();
@@ -944,7 +941,6 @@
             const studentsMap = getStudentsMap();
 
             let filtered = appData.cases.filter(c => c.className === appData.activeClass);
-
             if (levelFilter) filtered = filtered.filter(c => c.level === levelFilter);
             if (statusFilter) filtered = filtered.filter(c => c.status === statusFilter);
             if (search) {
@@ -953,6 +949,8 @@
                     return sName.includes(search) || c.title.toLowerCase().includes(search);
                 });
             }
+
+            document.getElementById('badge-total-kasus').innerText = appData.cases.filter(c => c.className === appData.activeClass).length;
 
             if (filtered.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="8" class="text-center py-6 text-slate-400">Belum ada catatan pelanggaran.</td></tr>`;
@@ -999,22 +997,149 @@
             }
         }
 
-        function autoCalculateGrade() {
-            const score = parseInt(document.getElementById('quran-score').value);
-            const gradeDisplay = document.getElementById('quran-grade-display');
+        function renderStudentCaseSummary() {
+            const container = document.getElementById('student-case-cards-container');
+            const search = document.getElementById('search-rekap-kasus').value.toLowerCase();
+            const students = getActiveStudents();
 
-            if (isNaN(score)) {
-                gradeDisplay.value = "";
+            let filtered = students.filter(s => s.name.toLowerCase().includes(search) || s.nis.toLowerCase().includes(search));
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-8 text-slate-400">Tidak ada siswa ditemukan.</div>`;
                 return;
             }
 
+            let html = '';
+            filtered.forEach(s => {
+                const sCases = appData.cases.filter(c => c.className === appData.activeClass && c.studentId === s.id);
+                const totalCases = sCases.length;
+                const totalPoints = sCases.reduce((sum, c) => sum + c.points, 0);
+
+                let statusBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800"><i class="fa-solid fa-shield-halved"></i> Sangat Tertib</span>`;
+                let cardBorder = "border-slate-200";
+                if (totalPoints > 0 && totalPoints <= 5) {
+                    statusBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800"><i class="fa-solid fa-triangle-exclamation"></i> Perhatian Ringan</span>`;
+                    cardBorder = "border-amber-300";
+                } else if (totalPoints > 5) {
+                    statusBadge = `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800"><i class="fa-solid fa-circle-exclamation"></i> Pembinaan Khusus</span>`;
+                    cardBorder = "border-rose-300";
+                }
+
+                html += `
+                    <div class="bg-white rounded-xl shadow-sm border ${cardBorder} p-5 flex flex-col justify-between space-y-4 hover:shadow-md transition">
+                        <div>
+                            <div class="flex items-start justify-between gap-2">
+                                <div>
+                                    <div class="text-xs font-mono text-slate-500">NIS: ${s.nis}</div>
+                                    <h4 class="font-bold text-slate-800 text-base mt-0.5">${s.name}</h4>
+                                </div>
+                                <div>${statusBadge}</div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 mt-4 pt-3 border-t border-slate-100 text-center">
+                                <div class="bg-slate-50 p-2 rounded-lg">
+                                    <div class="text-[10px] uppercase font-semibold text-slate-500">Total Kasus</div>
+                                    <div class="text-lg font-bold text-slate-800">${totalCases} <span class="text-xs font-normal text-slate-500">kejadian</span></div>
+                                </div>
+                                <div class="bg-slate-50 p-2 rounded-lg">
+                                    <div class="text-[10px] uppercase font-semibold text-slate-500">Akumulasi Poin</div>
+                                    <div class="text-lg font-bold text-rose-600">${totalPoints} <span class="text-xs font-normal text-slate-500">poin</span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <button onclick="openStudentCaseDetail('${s.id}')" class="w-full bg-islamic-50 hover:bg-islamic-100 text-islamic-700 font-semibold py-2 rounded-lg text-xs transition flex items-center justify-center gap-2 border border-islamic-200">
+                                <i class="fa-solid fa-folder-open"></i> Lihat Riwayat & Detail Kasus
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function openStudentCaseDetail(studentId) {
+            const studentsMap = getStudentsMap();
+            const sName = studentsMap[studentId] || "Siswa";
+            document.getElementById('modal-detail-student-name').innerText = sName;
+
+            const sCases = appData.cases.filter(c => c.className === appData.activeClass && c.studentId === studentId);
+            const content = document.getElementById('modal-detail-student-content');
+
+            if (sCases.length === 0) {
+                content.innerHTML = `
+                    <div class="text-center py-12 space-y-3">
+                        <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 text-base">Alhamdulillah, Siswa Ini Bersih dari Pelanggaran!</h4>
+                        <p class="text-xs text-slate-500">Belum ada catatan jurnal kasus atau pelanggaran kedisiplinan yang tercatat untuk ${sName}.</p>
+                    </div>
+                `;
+            } else {
+                let totalPoin = sCases.reduce((sum, c) => sum + c.points, 0);
+                let tableHtml = `
+                    <div class="bg-islamic-50 p-4 rounded-xl border border-islamic-200 flex justify-between items-center mb-4">
+                        <div>
+                            <div class="text-xs text-islamic-800 font-semibold">Total Pelanggaran Tercatat</div>
+                            <div class="text-xl font-extrabold text-islamic-900">${sCases.length} Kasus (${totalPoin} Poin)</div>
+                        </div>
+                        <div class="text-right text-xs text-islamic-700">
+                            <div>Kelas: <b>${appData.activeClass}</b></div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                `;
+
+                sCases.forEach((c, idx) => {
+                    let badgeColor = 'bg-amber-100 text-amber-800';
+                    if (c.level === 'Sedang') badgeColor = 'bg-orange-100 text-orange-800';
+                    if (c.level === 'Berat') badgeColor = 'bg-rose-100 text-rose-800';
+
+                    let statusColor = 'bg-blue-100 text-blue-800';
+                    if (c.status === 'Selesai') statusColor = 'bg-emerald-100 text-emerald-800';
+                    if (c.status === 'Tindak Lanjut Orang Tua/BK') statusColor = 'bg-purple-100 text-purple-800';
+
+                    tableHtml += `
+                        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm space-y-2">
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="font-mono font-semibold text-slate-500"><i class="fa-regular fa-calendar"></i> ${c.date}</span>
+                                <div class="flex gap-2">
+                                    <span class="px-2 py-0.5 rounded-full font-bold ${badgeColor}">${c.level} (+${c.points} Poin)</span>
+                                    <span class="px-2 py-0.5 rounded-full font-semibold ${statusColor}">${c.status}</span>
+                                </div>
+                            </div>
+                            <div class="font-bold text-slate-800 text-sm">${idx + 1}. ${c.title}</div>
+                            <div class="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                                <b class="text-slate-700">Kronologi:</b> ${c.desc || '-'}
+                            </div>
+                            <div class="text-xs text-islamic-900 bg-emerald-50/50 p-2.5 rounded-lg border border-emerald-100">
+                                <b class="text-emerald-800">Tindakan / Pembinaan Guru:</b> ${c.action || '-'}
+                            </div>
+                        </div>
+                    `;
+                });
+                tableHtml += `</div>`;
+                content.innerHTML = tableHtml;
+            }
+
+            document.getElementById('modal-student-case-detail').classList.remove('hidden');
+        }
+
+        function closeStudentCaseModal() {
+            document.getElementById('modal-student-case-detail').classList.add('hidden');
+        }
+
+        // --- PENILAIAN AL-QUR'AN ---
+        function autoCalculateGrade() {
+            const score = parseInt(document.getElementById('quran-score').value);
+            const gradeDisplay = document.getElementById('quran-grade-display');
+            if (isNaN(score)) { gradeDisplay.value = ""; return; }
             let grade = "";
             if (score >= 90) grade = "Mumtaz (A+) - Sangat Baik";
             else if (score >= 80) grade = "Jayyid Jiddan (A) - Baik Sekali";
             else if (score >= 70) grade = "Jayyid (B) - Baik";
             else if (score >= 60) grade = "Maqbul (C) - Cukup";
             else grade = "Perlu Bimbingan (D)";
-
             gradeDisplay.value = grade;
         }
 
@@ -1057,7 +1182,6 @@
                 appData.quran.unshift(newItem);
                 alert("Penilaian Al-Qur'an berhasil disimpan!");
             }
-
             saveData();
             cancelEditQuran();
         }
@@ -1082,7 +1206,6 @@
             document.getElementById('btn-save-quran').className = "bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition flex items-center gap-2 shadow";
             document.getElementById('btn-save-quran').innerHTML = `<i class="fa-solid fa-check"></i> Update Penilaian`;
             document.getElementById('cancel-edit-quran-btn').classList.remove('hidden');
-
             document.getElementById('quran-form-container').scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -1091,7 +1214,6 @@
             document.getElementById('form-quran').reset();
             document.getElementById('quran-date').value = currentDateStr;
             document.getElementById('quran-grade-display').value = "";
-
             document.getElementById('quran-form-title').innerHTML = `<i class="fa-solid fa-book-quran text-islamic-600"></i> Form Setoran & Penilaian Al-Qur'an`;
             document.getElementById('btn-save-quran').className = "bg-islamic-600 hover:bg-islamic-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition flex items-center gap-2 shadow";
             document.getElementById('btn-save-quran').innerHTML = `<i class="fa-solid fa-save"></i> Simpan Penilaian Al-Qur'an`;
@@ -1122,7 +1244,6 @@
             filtered.forEach(q => {
                 const sName = studentsMap[q.studentId] || "Siswa Tidak Dikenal";
                 const scoreDisplay = q.score !== undefined ? q.score : "-";
-                
                 let scoreBadge = "bg-slate-100 text-slate-700";
                 if (q.score >= 85) scoreBadge = "bg-emerald-100 text-emerald-800 font-bold";
                 else if (q.score >= 70) scoreBadge = "bg-blue-100 text-blue-800 font-bold";
@@ -1139,7 +1260,7 @@
                         <td class="p-3 text-center"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-bold text-xs">${q.smoothness}</span></td>
                         <td class="p-3 text-xs text-slate-600">${q.note || '-'}</td>
                         <td class="p-3 text-center no-print whitespace-nowrap">
-                            <button onclick="editQuran('${q.id}')" class="text-amber-600 hover:text-amber-800 p-1 mr-1" title="Edit Data"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="editQuran('${q.id}')" class="text-amber-600 hover:text-amber-800 p-1 mr-1" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
                             <button onclick="deleteQuran('${q.id}')" class="text-rose-500 hover:text-rose-700 p-1" title="Hapus"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
@@ -1149,19 +1270,19 @@
         }
 
         function deleteQuran(id) {
-            if (confirm("Apakah Anda yakin ingin menghapus penilaian Al-Qur'an ini?")) {
+            if (confirm("Hapus penilaian Al-Qur'an ini?")) {
                 appData.quran = appData.quran.filter(q => q.id !== id);
                 saveData();
             }
         }
 
+        // --- REKAPAN PEKANAN & SPREADSHEET ---
         function renderWeeklyReport() {
             const monthIdx = parseInt(document.getElementById('rekap-month').value);
             const weekNum = parseInt(document.getElementById('rekap-week').value);
             const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 
             document.getElementById('rekap-header-subtitle').innerText = `PEKAN ${weekNum} - ${months[monthIdx].toUpperCase()} 2026`;
-
             const students = getActiveStudents();
             const tbody = document.getElementById('weekly-rekap-tbody');
 
@@ -1176,7 +1297,6 @@
             let html = '';
             students.forEach((s, idx) => {
                 let countH = 0, countI = 0, countS = 0, countA = 0;
-
                 Object.keys(appData.attendance).forEach(dateKey => {
                     const d = new Date(dateKey);
                     if (d.getMonth() === monthIdx && d.getDate() >= startDay && d.getDate() <= endDay) {
@@ -1234,36 +1354,22 @@
 
         function syncToGoogleSheets() {
             if (!appData.webhookUrl) {
-                alert("Silakan atur Webhook URL Google Sheets terlebih dahulu pada menu Tab 5 (Integrasi Google Sheets)!");
+                alert("Atur Webhook URL Google Sheets terlebih dahulu di Tab 6 (Google Sheets)!");
                 switchTab('sheets');
                 return;
             }
-
-            const payload = {
-                kelas: appData.activeClass,
-                attendance: appData.attendance,
-                quran: appData.quran,
-                cases: appData.cases
-            };
-
+            const payload = { kelas: appData.activeClass, attendance: appData.attendance, quran: appData.quran, cases: appData.cases };
             fetch(appData.webhookUrl, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
+                method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
-            }).then(() => {
-                alert("Data berhasil dikirim & disinkronisasi ke Google Sheets!");
-            }).catch(err => {
-                alert("Gagal mengirim data ke Google Sheets. Periksa koneksi atau URL webhook.");
-            });
+            }).then(() => alert("Data berhasil disinkronisasi ke Google Sheets!")).catch(() => alert("Gagal sinkronisasi."));
         }
 
         function downloadCSV(type) {
             let csvContent = "data:text/csv;charset=utf-8,";
             const studentsMap = getStudentsMap();
-
             if (type === 'attendance') {
-                csvContent += "Tanggal,NIS,Nama Siswa,Status Kehadiran,Keterangan\n";
+                csvContent += "Tanggal,NIS,Nama Siswa,Status,Keterangan\n";
                 Object.keys(appData.attendance).forEach(dateKey => {
                     const dayAtt = appData.attendance[dateKey];
                     Object.keys(dayAtt).forEach(sId => {
@@ -1273,13 +1379,12 @@
                     });
                 });
             } else if (type === 'quran') {
-                csvContent += "Tanggal,Nama Siswa,Kategori,Surah/Ayat,Nilai Angka,Predikat,Kelancaran,Tajwid,Penguji,Catatan\n";
+                csvContent += "Tanggal,Nama Siswa,Kategori,Surah,Nilai,Predikat,Kelancaran,Tajwid,Penguji,Catatan\n";
                 appData.quran.filter(q => q.className === appData.activeClass).forEach(q => {
                     const sName = studentsMap[q.studentId] || q.studentId;
                     csvContent += `"${q.date}","${sName}","${q.category}","${q.surah}","${q.score || 0}","${q.grade || ''}","${q.smoothness}","${q.tajweed}","${q.teacher || ''}","${q.note || ''}"\n`;
                 });
             }
-
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
@@ -1303,12 +1408,10 @@
         function renderModalStudentList() {
             const tbody = document.getElementById('modal-student-list');
             const students = getActiveStudents();
-
             if (students.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-slate-400">Belum ada siswa di kelas ini.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-slate-400">Belum ada siswa.</td></tr>`;
                 return;
             }
-
             let html = '';
             students.forEach((s, idx) => {
                 html += `
@@ -1329,16 +1432,11 @@
             e.preventDefault();
             const nis = document.getElementById('new-student-nis').value.trim();
             const name = document.getElementById('new-student-name').value.trim();
-
-            if (!appData.classes[appData.activeClass]) {
-                appData.classes[appData.activeClass] = [];
-            }
-
+            if (!appData.classes[appData.activeClass]) appData.classes[appData.activeClass] = [];
             const newId = 'student_' + Date.now() + Math.floor(Math.random()*1000);
             appData.classes[appData.activeClass].push({ id: newId, nis, name });
             saveData();
             renderModalStudentList();
-
             document.getElementById('new-student-nis').value = '';
             document.getElementById('new-student-name').value = '';
         }
@@ -1354,21 +1452,16 @@
         function getStudentsMap() {
             let map = {};
             Object.values(appData.classes).forEach(studentList => {
-                studentList.forEach(s => {
-                    map[s.id] = s.name;
-                });
+                studentList.forEach(s => { map[s.id] = s.name; });
             });
             return map;
         }
 
         function updateStatistics() {
             const students = getActiveStudents();
-            const totalSiswa = students.length;
-            document.getElementById('stat-total-siswa').innerText = totalSiswa;
-
+            document.getElementById('stat-total-siswa').innerText = students.length;
             const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
             const attDay = appData.attendance[dateVal] || {};
-
             let hadir = 0, izin = 0, sakit = 0, alpa = 0;
             students.forEach(s => {
                 const status = attDay[s.id]?.status || 'H';
@@ -1377,14 +1470,12 @@
                 else if (status === 'S') sakit++;
                 else if (status === 'A') alpa++;
             });
-
             document.getElementById('stat-hadir').innerText = hadir;
             document.getElementById('stat-izin').innerText = izin;
             document.getElementById('stat-sakit').innerText = sakit;
             document.getElementById('stat-alpa-terlambat').innerText = alpa;
-
-            const totalQuran = appData.quran.filter(q => q.className === appData.activeClass).length;
-            document.getElementById('stat-total-quran').innerText = totalQuran;
+            document.getElementById('stat-total-quran').innerText = appData.quran.filter(q => q.className === appData.activeClass).length;
+            document.getElementById('badge-total-kasus').innerText = appData.cases.filter(c => c.className === appData.activeClass).length;
         }
     </script>
 </body>
