@@ -429,7 +429,7 @@
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden card-box">
                 <div class="p-4 bg-slate-50 border-b border-slate-200 flex flex-col md:flex-row items-center justify-between gap-3 no-print">
                     <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                        <i class="fa-solid fa-list-check text-islamic-600"></i> Data Penilaian & Nilai Al-Qur'an Siswa
+                        <i class="fa-solid fa-clock-rotate-left text-islamic-600"></i> Riwayat Setoran & Penilaian Al-Qur'an
                     </h3>
                     <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
                         <select id="filter-quran-category" onchange="renderQuranTable()" class="border border-slate-300 rounded-lg text-xs p-2 focus:ring-2 focus:ring-islamic-500">
@@ -439,7 +439,7 @@
                             <option value="Tahsin / Tilawah">Tahsin / Tilawah</option>
                             <option value="Ujian Surah">Ujian Surah</option>
                         </select>
-                        <input type="text" id="search-quran" oninput="renderQuranTable()" placeholder="Cari nama/surah..." class="border border-slate-300 rounded-lg text-xs p-2 focus:ring-2 focus:ring-islamic-500 w-40">
+                        <input type="text" id="search-quran" oninput="renderQuranTable()" placeholder="Cari nama/surah..." class="border border-slate-300 rounded-lg text-xs p-2 focus:ring-2 focus:ring-islamic-500 w-48">
                     </div>
                 </div>
                 <div class="overflow-x-auto">
@@ -450,10 +450,11 @@
                                 <th class="p-3.5">Nama Siswa</th>
                                 <th class="p-3.5">Kategori</th>
                                 <th class="p-3.5">Surah / Ayat</th>
-                                <th class="p-3.5 text-center">Nilai Angka</th>
+                                <th class="p-3.5 text-center">Nilai</th>
                                 <th class="p-3.5 text-center">Predikat</th>
                                 <th class="p-3.5 text-center">Kelancaran</th>
-                                <th class="p-3.5">Catatan Penguji</th>
+                                <th class="p-3.5 text-center">Tajwid</th>
+                                <th class="p-3.5">Catatan</th>
                                 <th class="p-3.5 text-center no-print">Aksi</th>
                             </tr>
                         </thead>
@@ -468,17 +469,17 @@
             <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4 no-print">
                 <div>
                     <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-quran text-islamic-600"></i> Rekapitulasi Al-Qur'an & Hafalan Per Siswa
+                        <i class="fa-solid fa-quran text-islamic-600"></i> Rekapitulasi Al-Qur'an Per Siswa (Cetak Buku Rapor Saku)
                     </h3>
-                    <p class="text-xs text-slate-500 mt-1">Laporan lengkap riwayat setoran Al-Qur'an khusus per siswa (Ziyadah, Muraja'ah, Nilai).</p>
+                    <p class="text-xs text-slate-500 mt-1">Menampilkan rekapitulasi lengkap hafalan dan tilawah per siswa dalam halaman terpisah.</p>
                 </div>
                 <div class="flex items-center gap-3">
                     <div class="relative w-full md:w-64">
                         <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
                         <input type="text" id="search-rekap-quran" oninput="renderStudentQuranSummary()" placeholder="Cari siswa..." class="w-full pl-9 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-islamic-500">
                     </div>
-                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg text-sm transition flex items-center gap-2 shadow whitespace-nowrap">
-                        <i class="fa-solid fa-file-pdf"></i> Cetak Rekap Qur'an (Per Halaman)
+                    <button onclick="window.print()" class="bg-islamic-600 hover:bg-islamic-700 text-white font-semibold px-4 py-2 rounded-lg text-sm transition flex items-center gap-2 shadow whitespace-nowrap">
+                        <i class="fa-solid fa-print"></i> Cetak Rekap Qur'an
                     </button>
                 </div>
             </div>
@@ -486,673 +487,507 @@
             <div id="all-student-quran-print-view" class="space-y-8"></div>
         </section>
 
-        <!-- TAB 6: REKAPITULASI PEKANAN -->
+        <!-- TAB 6: REKAP PEKAN -->
         <section id="tab-rekap" class="space-y-6 hidden">
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-200 no-print">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
                     <div>
                         <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                            <i class="fa-solid fa-calendar-week text-islamic-600"></i> Rekapitulasi Laporan Per Pekan (Mingguan)
+                            <i class="fa-solid fa-file-invoice text-islamic-600"></i> Rekapitulasi Kelas Keseluruhan
                         </h3>
-                        <p class="text-xs text-slate-500 mt-1">Pilih pekan dan bulan untuk melihat atau mengunduh laporan PDF resmi.</p>
+                        <p class="text-xs text-slate-500">Ringkasan statistik presensi, poin pelanggaran, dan setoran Al-Qur'an kelas.</p>
                     </div>
-                    <div class="flex items-center gap-3">
-                        <select id="rekap-month" onchange="renderWeeklyReport()" class="border border-slate-300 rounded-lg text-sm p-2 bg-slate-50 font-semibold text-slate-700">
-                            <option value="0">Januari 2026</option>
-                            <option value="1">Februari 2026</option>
-                            <option value="2">Maret 2026</option>
-                            <option value="3">April 2026</option>
-                            <option value="4">Mei 2026</option>
-                            <option value="5">Juni 2026</option>
-                            <option value="6">Juli 2026</option>
-                            <option value="7">Agustus 2026</option>
-                            <option value="8">September 2026</option>
-                            <option value="9">Oktober 2026</option>
-                            <option value="10" selected>November 2026</option>
-                            <option value="11">Desember 2026</option>
-                        </select>
-                        <select id="rekap-week" onchange="renderWeeklyReport()" class="border border-slate-300 rounded-lg text-sm p-2 bg-slate-50 font-semibold text-slate-700">
-                            <option value="1">Pekan I (Tgl 1 - 7)</option>
-                            <option value="2">Pekan II (Tgl 8 - 14)</option>
-                            <option value="3">Pekan III (Tgl 15 - 21)</option>
-                            <option value="4">Pekan IV (Tgl 22 - 28)</option>
-                            <option value="5">Pekan V (Tgl 29 - 31)</option>
-                        </select>
-                        <button onclick="downloadWeeklyPDF()" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-4 py-2 rounded-lg text-sm transition flex items-center gap-2 shadow">
-                            <i class="fa-solid fa-file-pdf"></i> Cetak / Download PDF
+                    <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-2 shadow">
+                        <i class="fa-solid fa-print"></i> Cetak Rekap Kelas
+                    </button>
+                </div>
+                <div id="rekap-content-area" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+            </div>
+        </section>
+
+        <!-- TAB 7: GOOGLE SHEETS SETTINGS -->
+        <section id="tab-sheets" class="space-y-6 hidden">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 max-w-2xl mx-auto space-y-4">
+                <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2 border-b pb-3">
+                    <i class="fa-solid fa-table text-emerald-600"></i> Konfigurasi Google Sheets Webhook
+                </h3>
+                <p class="text-sm text-slate-600">
+                    Masukkan URL Google Apps Script Web App untuk melakukan sinkronisasi data presensi dan nilai secara otomatis ke Google Sheets Anda.
+                </p>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Google Apps Script Webhook URL</label>
+                        <input type="text" id="sheets-webhook-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full border border-slate-300 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button onclick="saveWebhookUrl()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow">
+                            Simpan Webhook URL
                         </button>
                     </div>
                 </div>
             </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6 card-box" id="weekly-report-container">
-                <div class="text-center border-b pb-4">
-                    <h2 class="text-lg font-bold text-slate-800 uppercase tracking-wide">LAPORAN REKAPITULASI PEKANAN SISWA</h2>
-                    <p class="text-xs font-semibold text-islamic-700 uppercase" id="rekap-header-subtitle">PEKAN II - NOVEMBER 2026</p>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold uppercase text-slate-700 mb-3 flex items-center gap-2">
-                        <i class="fa-solid fa-table text-islamic-600"></i> Ringkasan Rekap Per Siswa
-                    </h4>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse border border-slate-200 text-xs">
-                            <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
-                                <tr>
-                                    <th class="p-2 border border-slate-200 text-center w-10">No</th>
-                                    <th class="p-2 border border-slate-200 w-20">NIS</th>
-                                    <th class="p-2 border border-slate-200">Nama Siswa</th>
-                                    <th class="p-2 border border-slate-200 text-center bg-emerald-50 text-emerald-800">Hadir</th>
-                                    <th class="p-2 border border-slate-200 text-center bg-blue-50 text-blue-800">Izin</th>
-                                    <th class="p-2 border border-slate-200 text-center bg-amber-50 text-amber-800">Sakit</th>
-                                    <th class="p-2 border border-slate-200 text-center bg-rose-50 text-rose-800">Alpa</th>
-                                    <th class="p-2 border border-slate-200 text-center">Pelanggaran</th>
-                                    <th class="p-2 border border-slate-200 text-center">Total Setoran</th>
-                                    <th class="p-2 border border-slate-200 text-center">Rata-Rata Nilai Qur'an</th>
-                                </tr>
-                            </thead>
-                            <tbody id="weekly-rekap-tbody" class="divide-y divide-slate-200"></tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="grid grid-cols-2 gap-8 pt-8 text-center text-xs text-slate-700 font-medium">
-                    <div>
-                        <p>Mengetahui,</p>
-                        <p class="font-bold">Kepala Sekolah SD AL-WILDAN 20</p>
-                        <div class="h-16"></div>
-                        <p class="font-bold underline">( Ustadz Syamsul, M.Pd. )</p>
-                    </div>
-                    <div>
-                        <p>Mataram, <span id="rekap-sign-date"></span></p>
-                        <p class="font-bold">Wali Kelas / Guru Qur'an</p>
-                        <div class="h-16"></div>
-                        <p class="font-bold underline">( Muhammad Kazuwaini, Lc. )</p>
-                    </div>
-                </div>
-            </div>
         </section>
-
-        <!-- TAB 7: GOOGLE SHEETS & EKSPOR -->
-        <section id="tab-sheets" class="space-y-6 hidden">
-            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 space-y-6">
-                <div class="border-b pb-4">
-                    <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
-                        <i class="fa-solid fa-file-csv text-emerald-600"></i> Integrasi Google Sheets & Ekspor Data
-                    </h3>
-                    <p class="text-xs text-slate-500 mt-1">Kirim seluruh rekap harian, presensi, dan jurnal kasus ke Google Sheets.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-emerald-50 p-5 rounded-xl border border-emerald-200 space-y-3">
-                        <h4 class="font-bold text-emerald-900 text-sm flex items-center gap-2">
-                            <i class="fa-solid fa-download"></i> Download CSV / Excel
-                        </h4>
-                        <p class="text-xs text-emerald-700">Unduh data presensi atau nilai Al-Qur'an secara offline untuk Excel.</p>
-                        <div class="flex flex-wrap gap-2 pt-2">
-                            <button onclick="downloadCSV('attendance')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
-                                <i class="fa-solid fa-file-csv"></i> CSV Presensi
-                            </button>
-                            <button onclick="downloadCSV('quran')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-1.5 shadow">
-                                <i class="fa-solid fa-file-csv"></i> CSV Nilai Qur'an
-                            </button>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
-                        <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                            <i class="fa-solid fa-cloud-arrow-up text-blue-600"></i> Cloud Webhook Google Sheets
-                        </h4>
-                        <p class="text-xs text-slate-500">Masukkan Webhook URL App Script Google Sheets.</p>
-                        <input type="text" id="webhook-url" placeholder="https://script.google.com/macros/s/.../exec" class="w-full border border-slate-300 rounded-lg p-2 text-xs font-mono focus:ring-2 focus:ring-emerald-500">
-                        <div class="flex justify-end">
-                            <button onclick="saveWebhookURL()" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold transition">
-                                Simpan Webhook
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
     </main>
 
-    <!-- MODAL MANAJEMEN SISWA -->
-    <div id="modal-siswa" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden no-print">
-        <div class="bg-white rounded-xl shadow-xl w-full max-w-2xl mx-4 overflow-hidden max-h-[90vh] flex flex-col">
-            <div class="bg-islamic-800 text-white p-4 flex items-center justify-between">
-                <h3 class="font-bold text-base flex items-center gap-2">
-                    <i class="fa-solid fa-user-gear"></i> Kelola Data Siswa Kelas <span id="modal-class-name"></span>
-                </h3>
-                <button onclick="closeManageStudentsModal()" class="text-white/80 hover:text-white text-lg font-bold">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 no-print mt-auto">
+        <p>Jurnal Kelas & Penilaian Al-Qur'an • SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM &copy; 2026</p>
+    </footer>
+
+    <!-- MODAL KELOLA SISWA -->
+    <div id="modal-manage-students" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+            <div class="p-4 bg-islamic-800 text-white flex items-center justify-between">
+                <h3 class="font-bold text-base flex items-center gap-2"><i class="fa-solid fa-user-gear"></i> Kelola Daftar Siswa Kelas Aktif</h3>
+                <button onclick="closeManageStudentsModal()" class="text-white hover:text-slate-200 text-lg"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div class="p-6 overflow-y-auto space-y-6 flex-grow">
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <h4 class="text-xs font-bold uppercase text-slate-700 mb-3"><i class="fa-solid fa-user-plus text-islamic-600"></i> Tambah Siswa Baru</h4>
-                    <form id="form-add-student" onsubmit="addNewStudent(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">NIS</label>
-                            <input type="text" id="new-student-nis" placeholder="Contoh: 220106" required class="w-full border border-slate-300 rounded-lg p-2 text-sm">
-                        </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap Siswa</label>
-                            <div class="flex gap-2">
-                                <input type="text" id="new-student-name" placeholder="Nama lengkap siswa..." required class="w-full border border-slate-300 rounded-lg p-2 text-sm">
-                                <button type="submit" class="bg-islamic-600 hover:bg-islamic-700 text-white px-4 py-2 rounded-lg text-sm font-semibold whitespace-nowrap shadow">
-                                    Tambah
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div>
-                    <h4 class="text-xs font-bold uppercase text-slate-700 mb-2">Daftar Siswa Saat Ini</h4>
-                    <div class="border border-slate-200 rounded-xl overflow-hidden max-h-60 overflow-y-auto">
-                        <table class="w-full text-left border-collapse text-sm">
-                            <thead class="bg-slate-100 text-xs text-slate-600 uppercase sticky top-0">
-                                <tr>
-                                    <th class="p-3 w-12 text-center">No</th>
-                                    <th class="p-3 w-28">NIS</th>
-                                    <th class="p-3">Nama Siswa</th>
-                                    <th class="p-3 text-center w-20">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="modal-student-list" class="divide-y divide-slate-100"></tbody>
-                        </table>
+            <div class="p-6 overflow-y-auto space-y-4 flex-grow">
+                <form onsubmit="addNewStudent(event)" class="bg-slate-50 p-4 rounded-xl border border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">NIS *</label>
+                        <input type="text" id="new-nis" required placeholder="2026001" class="w-full border border-slate-300 rounded-lg p-2 text-sm">
                     </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Nama Lengkap Siswa *</label>
+                        <input type="text" id="new-nama" required placeholder="Nama Siswa" class="w-full border border-slate-300 rounded-lg p-2 text-sm">
+                    </div>
+                    <div class="sm:col-span-3 flex justify-end">
+                        <button type="submit" class="bg-islamic-600 hover:bg-islamic-700 text-white px-4 py-2 rounded-lg text-xs font-semibold shadow">
+                            <i class="fa-solid fa-user-plus"></i> Tambah Siswa
+                        </button>
+                    </div>
+                </form>
+
+                <div class="border rounded-xl overflow-hidden">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead class="bg-slate-100 text-slate-700 text-xs uppercase">
+                            <tr>
+                                <th class="p-3 w-16 text-center">NIS</th>
+                                <th class="p-3">Nama Siswa</th>
+                                <th class="p-3 w-20 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modal-student-list-body" class="divide-y divide-slate-100"></tbody>
+                    </table>
                 </div>
             </div>
-            <div class="bg-slate-50 px-6 py-3 border-t border-slate-200 flex justify-end">
-                <button onclick="closeManageStudentsModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-lg text-sm font-semibold">
-                    Tutup & Simpan
-                </button>
+            <div class="p-4 bg-slate-50 border-t flex justify-end">
+                <button onclick="closeManageStudentsModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-4 py-2 rounded-lg text-sm">Tutup</button>
             </div>
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="bg-slate-800 text-slate-400 py-4 text-center text-xs border-t border-slate-700 mt-8 no-print">
-        <p>© 2026 SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM — Jurnal Digital & Penilaian Al-Qur'an</p>
-    </footer>
-
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT UTAMA -->
     <script>
-        let appData = JSON.parse(localStorage.getItem('alwildan_jurnal_v5_data')) || {
-            activeClass: "Kelas 2 Inter 1",
-            webhookUrl: "",
-            classes: {
-                "Kelas 2 Inter 1": [
-                    { id: "s1", nis: "220101", name: "Ahmad Zaki Al-Fatih" },
-                    { id: "s2", nis: "220102", name: "Fatimah Azzahra" },
-                    { id: "s3", nis: "220103", name: "Muhammad Umar Faruq" },
-                    { id: "s4", nis: "220104", name: "Aisyah Humairah" },
-                    { id: "s5", nis: "220105", name: "Ibrahim Malik" }
+        let defaultClasses = {
+            "2-inter-1": {
+                name: "Kelas 2 Inter 1",
+                students: [
+                    { nis: "2201", name: "Ahmad Zaki Al-Faruq" },
+                    { nis: "2202", name: "Fatimah Azzahra" },
+                    { nis: "2203", name: "Muhammad Al Fatih" },
+                    { nis: "2204", name: "Aisyah Humaira" },
+                    { nis: "2205", name: "Umar Bin Khattab" }
                 ]
             },
-            attendance: {},
-            cases: [],
-            quran: []
+            "2-inter-2": {
+                name: "Kelas 2 Inter 2",
+                students: [
+                    { nis: "2251", name: "Bilal bin Rabah" },
+                    { nis: "2252", name: "Khadijah binti Khuwailid" }
+                ]
+            }
         };
 
-        let currentDateStr = new Date().toISOString().split('T')[0];
+        let dbClasses = JSON.parse(localStorage.getItem('alwildan_classes')) || defaultClasses;
+        let activeClassId = localStorage.getItem('alwildan_active_class') || Object.keys(dbClasses)[0];
+        
+        let attendanceData = JSON.parse(localStorage.getItem('alwildan_attendance')) || {};
+        let casesData = JSON.parse(localStorage.getItem('alwildan_cases')) || [];
+        let quranData = JSON.parse(localStorage.getItem('alwildan_quran')) || [];
+        let webhookUrl = localStorage.getItem('alwildan_webhook') || '';
+
+        const todayStr = new Date().toISOString().split('T')[0];
+        document.getElementById('attendance-date-picker').value = todayStr;
+        document.getElementById('case-date').value = todayStr;
+        document.getElementById('quran-date').value = todayStr;
+
+        const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('id-ID', optionsDate);
 
         window.onload = function() {
-            document.getElementById('current-date').innerText = formatDateIndo(currentDateStr);
-            document.getElementById('rekap-sign-date').innerText = formatDateIndo(currentDateStr);
-            document.getElementById('attendance-date-picker').value = currentDateStr;
-            document.getElementById('case-date').value = currentDateStr;
-            document.getElementById('quran-date').value = currentDateStr;
-            if (appData.webhookUrl) {
-                document.getElementById('webhook-url').value = appData.webhookUrl;
-            }
-
             initClassSelector();
-            refreshAllViews();
+            document.getElementById('sheets-webhook-url').value = webhookUrl;
+            switchTab('kehadiran');
         };
 
-        function saveData() {
-            localStorage.setItem('alwildan_jurnal_v5_data', JSON.stringify(appData));
-            refreshAllViews();
-        }
-
-        function formatDateIndo(dateString) {
-            if (!dateString) return "-";
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('id-ID', options);
+        function saveAllToLocalStorage() {
+            localStorage.setItem('alwildan_classes', JSON.stringify(dbClasses));
+            localStorage.setItem('alwildan_active_class', activeClassId);
+            localStorage.setItem('alwildan_attendance', JSON.stringify(attendanceData));
+            localStorage.setItem('alwildan_cases', JSON.stringify(casesData));
+            localStorage.setItem('alwildan_quran', JSON.stringify(quranData));
+            updateQuickStats();
         }
 
         function initClassSelector() {
             const selector = document.getElementById('class-selector');
             selector.innerHTML = '';
-            Object.keys(appData.classes).forEach(cls => {
-                const opt = document.createElement('option');
-                opt.value = cls;
-                opt.textContent = cls;
-                if (cls === appData.activeClass) opt.selected = true;
+            for (let id in dbClasses) {
+                let opt = document.createElement('option');
+                opt.value = id;
+                opt.textContent = dbClasses[id].name;
+                if (id === activeClassId) opt.selected = true;
                 selector.appendChild(opt);
-            });
+            }
+            populateStudentDropdowns();
+            updateQuickStats();
         }
 
-        function switchClass(className) {
-            appData.activeClass = className;
-            saveData();
+        function switchClass(classId) {
+            activeClassId = classId;
+            localStorage.setItem('alwildan_active_class', activeClassId);
+            populateStudentDropdowns();
+            renderAttendanceTable();
+            renderCaseTable();
+            renderQuranTable();
+            renderStudentCaseSummary();
+            renderStudentQuranSummary();
+            updateQuickStats();
         }
 
         function addClass() {
-            const newClassName = prompt("Masukkan nama kelas baru (Contoh: Kelas 2 Inter 2):");
-            if (newClassName && newClassName.trim() !== "") {
-                const trimmed = newClassName.trim();
-                if (!appData.classes[trimmed]) {
-                    appData.classes[trimmed] = [];
-                    appData.activeClass = trimmed;
-                    saveData();
-                    initClassSelector();
-                } else {
-                    alert("Nama kelas sudah ada!");
-                }
+            let className = prompt("Masukkan nama kelas baru (contoh: Kelas 2 Inter 3):");
+            if (!className) return;
+            let id = className.toLowerCase().replace(/[^a-z0-9]/g, '-');
+            if (dbClasses[id]) {
+                alert("Kelas sudah ada!");
+                return;
             }
+            dbClasses[id] = { name: className, students: [] };
+            activeClassId = id;
+            saveAllToLocalStorage();
+            initClassSelector();
+            switchClass(id);
         }
 
         function deleteActiveClass() {
-            const keys = Object.keys(appData.classes);
-            if (keys.length <= 1) {
+            if (Object.keys(dbClasses).length <= 1) {
                 alert("Minimal harus ada satu kelas aktif!");
                 return;
             }
-            if (confirm(`Apakah Anda yakin ingin menghapus kelas ${appData.activeClass}?`)) {
-                delete appData.classes[appData.activeClass];
-                appData.activeClass = Object.keys(appData.classes)[0];
-                saveData();
+            if (confirm(`Yakin ingin menghapus kelas ${dbClasses[activeClassId].name}?`)) {
+                delete dbClasses[activeClassId];
+                activeClassId = Object.keys(dbClasses)[0];
+                saveAllToLocalStorage();
                 initClassSelector();
+                switchClass(activeClassId);
             }
         }
 
+        function populateStudentDropdowns() {
+            const students = dbClasses[activeClassId]?.students || [];
+            const caseSelect = document.getElementById('case-student-id');
+            const quranSelect = document.getElementById('quran-student-id');
+            
+            let html = '<option value="">-- Pilih Siswa --</option>';
+            students.forEach(s => {
+                html += `<option value="${s.nis}">${s.name} (NIS: ${s.nis})</option>`;
+            });
+            caseSelect.innerHTML = html;
+            quranSelect.innerHTML = html;
+        }
+
         function switchTab(tabName) {
-            ['kehadiran', 'kasus', 'rekap-kasus', 'quran', 'rekap-quran', 'rekap', 'sheets'].forEach(t => {
+            const tabs = ['kehadiran', 'kasus', 'rekap-kasus', 'quran', 'rekap-quran', 'rekap', 'sheets'];
+            tabs.forEach(t => {
                 document.getElementById(`tab-${t}`).classList.add('hidden');
                 document.getElementById(`tab-btn-${t}`).className = "py-3 px-4 font-medium text-sm text-slate-500 hover:text-slate-700 border-b-2 border-transparent flex items-center gap-2 transition whitespace-nowrap";
             });
             document.getElementById(`tab-${tabName}`).classList.remove('hidden');
             document.getElementById(`tab-btn-${tabName}`).className = "py-3 px-4 font-semibold text-sm border-b-2 border-islamic-600 text-islamic-700 flex items-center gap-2 transition whitespace-nowrap";
 
-            if (tabName === 'rekap') {
-                renderWeeklyReport();
-            } else if (tabName === 'rekap-kasus') {
-                renderStudentCaseSummary();
-            } else if (tabName === 'rekap-quran') {
-                renderStudentQuranSummary();
-            }
+            if (tabName === 'kehadiran') renderAttendanceTable();
+            if (tabName === 'kasus') renderCaseTable();
+            if (tabName === 'rekap-kasus') renderStudentCaseSummary();
+            if (tabName === 'quran') renderQuranTable();
+            if (tabName === 'rekap-quran') renderStudentQuranSummary();
+            if (tabName === 'rekap') renderFullSummary();
         }
 
-        function refreshAllViews() {
-            populateStudentDropdowns();
-            renderAttendanceTable();
-            renderCaseTable();
-            renderStudentCaseSummary();
-            renderQuranTable();
-            renderStudentQuranSummary();
-            updateStatistics();
-        }
-
-        function getActiveStudents() {
-            return appData.classes[appData.activeClass] || [];
-        }
-
-        function populateStudentDropdowns() {
-            const students = getActiveStudents();
-            const caseSelect = document.getElementById('case-student-id');
-            const quranSelect = document.getElementById('quran-student-id');
-
-            const currentCaseVal = caseSelect.value;
-            const currentQuranVal = quranSelect.value;
-
-            let optionsHtml = '<option value="">-- Pilih Siswa --</option>';
-            students.forEach(s => {
-                optionsHtml += `<option value="${s.id}">${s.nis} - ${s.name}</option>`;
-            });
-
-            caseSelect.innerHTML = optionsHtml;
-            quranSelect.innerHTML = optionsHtml;
-
-            caseSelect.value = currentCaseVal;
-            quranSelect.value = currentQuranVal;
-        }
-
-        // --- PRESENSI ---
-        function changeAttendanceDate() { renderAttendanceTable(); }
         function renderAttendanceTable() {
             const tbody = document.getElementById('attendance-table-body');
-            const searchKeyword = document.getElementById('search-siswa').value.toLowerCase();
-            const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
-            const students = getActiveStudents();
+            const students = dbClasses[activeClassId]?.students || [];
+            const dateKey = document.getElementById('attendance-date-picker').value;
+            const search = document.getElementById('search-siswa').value.toLowerCase();
 
-            if (!appData.attendance[dateVal]) appData.attendance[dateVal] = {};
+            if (!attendanceData[activeClassId]) attendanceData[activeClassId] = {};
+            if (!attendanceData[activeClassId][dateKey]) attendanceData[activeClassId][dateKey] = {};
 
             let html = '';
-            let filtered = students.filter(s => s.name.toLowerCase().includes(searchKeyword) || s.nis.toLowerCase().includes(searchKeyword));
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="text-center py-6 text-slate-400">Tidak ada data siswa.</td></tr>`;
-                return;
-            }
+            let filtered = students.filter(s => s.name.toLowerCase().includes(search) || s.nis.includes(search));
 
             filtered.forEach((s, index) => {
-                if (!appData.attendance[dateVal][s.id]) appData.attendance[dateVal][s.id] = { status: 'H', note: '' };
-                const att = appData.attendance[dateVal][s.id];
-
+                let currentStatus = attendanceData[activeClassId][dateKey][s.nis]?.status || 'H';
+                let currentNote = attendanceData[activeClassId][dateKey][s.nis]?.note || '';
+                
                 html += `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="p-3 text-center font-medium text-slate-500">${index + 1}</td>
-                        <td class="p-3 font-mono text-xs text-slate-600">${s.nis}</td>
-                        <td class="p-3 font-semibold text-slate-800 flex items-center gap-2">
-                            <span class="student-avatar-placeholder student-avatar">${s.name.charAt(0)}</span>
-                            ${s.name}
+                    <tr class="hover:bg-slate-50/70">
+                        <td class="p-3.5 text-center text-xs text-slate-500 font-medium">${index + 1}</td>
+                        <td class="p-3.5 font-mono text-xs text-slate-600">${s.nis}</td>
+                        <td class="p-3.5 font-semibold text-slate-800 flex items-center gap-2.5">
+                            <div class="student-avatar student-avatar-placeholder">${s.name.charAt(0)}</div>
+                            <span>${s.name}</span>
                         </td>
-                        <td class="p-3 text-center">
-                            <div class="inline-flex rounded-lg p-1 bg-slate-100 border border-slate-200">
-                                <button type="button" onclick="updateAttendanceStatus('${s.id}', 'H')" class="px-2.5 py-1 rounded-md text-xs font-bold transition ${att.status === 'H' ? 'bg-emerald-600 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">H</button>
-                                <button type="button" onclick="updateAttendanceStatus('${s.id}', 'I')" class="px-2.5 py-1 rounded-md text-xs font-bold transition ${att.status === 'I' ? 'bg-blue-600 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">I</button>
-                                <button type="button" onclick="updateAttendanceStatus('${s.id}', 'S')" class="px-2.5 py-1 rounded-md text-xs font-bold transition ${att.status === 'S' ? 'bg-amber-600 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">S</button>
-                                <button type="button" onclick="updateAttendanceStatus('${s.id}', 'A')" class="px-2.5 py-1 rounded-md text-xs font-bold transition ${att.status === 'A' ? 'bg-rose-600 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">A</button>
+                        <td class="p-3.5 text-center">
+                            <div class="inline-flex rounded-lg p-1 bg-slate-100 border border-slate-200 gap-1">
+                                <button type="button" onclick="updateAttendance('${s.nis}', 'H')" class="px-2.5 py-1 rounded-md text-xs font-bold transition ${currentStatus === 'H' ? 'bg-emerald-600 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">H</button>
+                                <button type="button" onclick="updateAttendance('${s.nis}', 'I')" class="px-2.5 py-1 rounded-md text-xs font-bold transition ${currentStatus === 'I' ? 'bg-blue-600 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">I</button>
+                                <button type="button" onclick="updateAttendance('${s.nis}', 'S')" class="px-2.5 py-1 rounded-md text-xs font-bold transition ${currentStatus === 'S' ? 'bg-amber-500 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">S</button>
+                                <button type="button" onclick="updateAttendance('${s.nis}', 'A')" class="px-2.5 py-1 rounded-md text-xs font-bold transition ${currentStatus === 'A' ? 'bg-rose-600 text-white shadow' : 'text-slate-600 hover:bg-slate-200'}">A</button>
                             </div>
                         </td>
-                        <td class="p-3">
-                            <input type="text" value="${att.note || ''}" onchange="updateAttendanceNote('${s.id}', this.value)" placeholder="Keterangan..." class="w-full text-xs border border-slate-200 rounded px-2 py-1.5 focus:ring-1 focus:ring-islamic-500">
+                        <td class="p-3.5">
+                            <input type="text" value="${currentNote}" oninput="updateAttendanceNote('${s.nis}', this.value)" placeholder="Keterangan..." class="w-full border border-slate-200 rounded-lg px-3 py-1.5 text-xs focus:ring-1 focus:ring-islamic-500">
                         </td>
                     </tr>
                 `;
             });
             tbody.innerHTML = html;
-            updateStatistics();
+            updateQuickStats();
         }
 
-        function updateAttendanceStatus(studentId, status) {
-            const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
-            if (!appData.attendance[dateVal]) appData.attendance[dateVal] = {};
-            if (!appData.attendance[dateVal][studentId]) appData.attendance[dateVal][studentId] = { status: 'H', note: '' };
-            appData.attendance[dateVal][studentId].status = status;
-            saveData();
+        function updateAttendance(nis, status) {
+            const dateKey = document.getElementById('attendance-date-picker').value;
+            if (!attendanceData[activeClassId]) attendanceData[activeClassId] = {};
+            if (!attendanceData[activeClassId][dateKey]) attendanceData[activeClassId][dateKey] = {};
+            if (!attendanceData[activeClassId][dateKey][nis]) attendanceData[activeClassId][dateKey][nis] = { status: 'H', note: '' };
+            
+            attendanceData[activeClassId][dateKey][nis].status = status;
+            saveAllToLocalStorage();
             renderAttendanceTable();
         }
 
-        function updateAttendanceNote(studentId, note) {
-            const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
-            if (!appData.attendance[dateVal]) appData.attendance[dateVal] = {};
-            if (!appData.attendance[dateVal][studentId]) appData.attendance[dateVal][studentId] = { status: 'H', note: '' };
-            appData.attendance[dateVal][studentId].note = note;
-            saveData();
+        function updateAttendanceNote(nis, note) {
+            const dateKey = document.getElementById('attendance-date-picker').value;
+            if (!attendanceData[activeClassId][dateKey][nis]) attendanceData[activeClassId][dateKey][nis] = { status: 'H', note: '' };
+            attendanceData[activeClassId][dateKey][nis].note = note;
+            saveAllToLocalStorage();
+        }
+
+        function changeAttendanceDate() {
+            renderAttendanceTable();
         }
 
         function setAllAttendance(status) {
-            const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
-            if (!appData.attendance[dateVal]) appData.attendance[dateVal] = {};
-            getActiveStudents().forEach(s => {
-                if (!appData.attendance[dateVal][s.id]) appData.attendance[dateVal][s.id] = { status: 'H', note: '' };
-                appData.attendance[dateVal][s.id].status = status;
+            const dateKey = document.getElementById('attendance-date-picker').value;
+            const students = dbClasses[activeClassId]?.students || [];
+            if (!attendanceData[activeClassId]) attendanceData[activeClassId] = {};
+            if (!attendanceData[activeClassId][dateKey]) attendanceData[activeClassId][dateKey] = {};
+
+            students.forEach(s => {
+                if (!attendanceData[activeClassId][dateKey][s.nis]) attendanceData[activeClassId][dateKey][s.nis] = { status: 'H', note: '' };
+                attendanceData[activeClassId][dateKey][s.nis].status = status;
             });
-            saveData();
+            saveAllToLocalStorage();
             renderAttendanceTable();
         }
 
         function resetAttendance() {
-            const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
-            if (appData.attendance[dateVal]) {
-                delete appData.attendance[dateVal];
-                saveData();
+            const dateKey = document.getElementById('attendance-date-picker').value;
+            if (attendanceData[activeClassId] && attendanceData[activeClassId][dateKey]) {
+                delete attendanceData[activeClassId][dateKey];
+                saveAllToLocalStorage();
                 renderAttendanceTable();
             }
         }
 
-        // --- JURNAL KASUS (DENGAN FITUR EDIT) ---
         function saveCase(e) {
             e.preventDefault();
             const editId = document.getElementById('case-edit-id').value;
-            const studentId = document.getElementById('case-student-id').value;
-            const title = document.getElementById('case-title').value;
-            const level = document.getElementById('case-level').value;
-            const points = parseInt(document.getElementById('case-points').value) || 1;
-            const status = document.getElementById('case-status').value;
-            const date = document.getElementById('case-date').value;
-            const desc = document.getElementById('case-desc').value;
-            const action = document.getElementById('case-action').value;
+            const record = {
+                id: editId || 'case_' + Date.now(),
+                classId: activeClassId,
+                studentNis: document.getElementById('case-student-id').value,
+                title: document.getElementById('case-title').value,
+                level: document.getElementById('case-level').value,
+                points: parseInt(document.getElementById('case-points').value) || 1,
+                status: document.getElementById('case-status').value,
+                date: document.getElementById('case-date').value,
+                desc: document.getElementById('case-desc').value,
+                action: document.getElementById('case-action').value
+            };
 
             if (editId) {
-                const index = appData.cases.findIndex(c => c.id === editId);
-                if (index !== -1) {
-                    appData.cases[index].studentId = studentId;
-                    appData.cases[index].title = title;
-                    appData.cases[index].level = level;
-                    appData.cases[index].points = points;
-                    appData.cases[index].status = status;
-                    appData.cases[index].date = date;
-                    appData.cases[index].desc = desc;
-                    appData.cases[index].action = action;
-                    alert("Catatan kasus berhasil diperbarui!");
-                }
+                let idx = casesData.findIndex(c => c.id === editId);
+                if (idx !== -1) casesData[idx] = record;
             } else {
-                const newCase = {
-                    id: 'case_' + Date.now(),
-                    className: appData.activeClass,
-                    studentId, title, level, points, status, date, desc, action
-                };
-                appData.cases.unshift(newCase);
-                alert("Catatan kasus berhasil disimpan!");
+                casesData.unshift(record);
             }
 
-            saveData();
+            saveAllToLocalStorage();
             cancelEditCase();
+            renderCaseTable();
+            renderStudentCaseSummary();
+            document.getElementById('form-kasus').reset();
+            document.getElementById('case-date').value = todayStr;
+        }
+
+        function renderCaseTable() {
+            const tbody = document.getElementById('case-table-body');
+            const filterLevel = document.getElementById('filter-case-level').value;
+            const filterStatus = document.getElementById('filter-case-status').value;
+            const search = document.getElementById('search-case').value.toLowerCase();
+            const studentsMap = {};
+            (dbClasses[activeClassId]?.students || []).forEach(s => studentsMap[s.nis] = s.name);
+
+            let filtered = casesData.filter(c => c.classId === activeClassId);
+            if (filterLevel) filtered = filtered.filter(c => c.level === filterLevel);
+            if (filterStatus) filtered = filtered.filter(c => c.status === filterStatus);
+            if (search) {
+                filtered = filtered.filter(c => {
+                    let sName = (studentsMap[c.studentNis] || '').toLowerCase();
+                    return sName.includes(search) || c.title.toLowerCase().includes(search);
+                });
+            }
+
+            let html = '';
+            if (filtered.length === 0) {
+                html = `<tr><td colspan="8" class="text-center p-6 text-slate-400">Belum ada catatan kasus / perilaku.</td></tr>`;
+            } else {
+                filtered.forEach(c => {
+                    let sName = studentsMap[c.studentNis] || 'Siswa Tidak Ditemukan';
+                    let badgeColor = c.level === 'Ringan' ? 'bg-amber-100 text-amber-800' : (c.level === 'Sedang' ? 'bg-orange-100 text-orange-800' : 'bg-rose-100 text-rose-800');
+                    let statusColor = c.status === 'Selesai' ? 'bg-emerald-100 text-emerald-800' : (c.status === 'Dalam Proses' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800');
+
+                    html += `
+                        <tr class="hover:bg-slate-50/70 align-top">
+                            <td class="p-3.5 text-xs text-slate-600 font-mono">${c.date}</td>
+                            <td class="p-3.5 font-semibold text-slate-800">${sName}</td>
+                            <td class="p-3.5 text-slate-700">
+                                <div class="font-medium">${c.title}</div>
+                                <div class="text-xs text-slate-500 mt-0.5">${c.desc || '-'}</div>
+                            </td>
+                            <td class="p-3.5 text-center"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${badgeColor}">${c.level}</span></td>
+                            <td class="p-3.5 text-center font-bold text-rose-600">${c.points}</td>
+                            <td class="p-3.5 text-xs text-slate-600">${c.action || '-'}</td>
+                            <td class="p-3.5 text-center"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${statusColor}">${c.status}</span></td>
+                            <td class="p-3.5 text-center no-print whitespace-nowrap">
+                                <button onclick="editCase('${c.id}')" class="p-1.5 bg-amber-50 text-amber-600 hover:bg-amber-100 rounded-lg mr-1" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="deleteCase('${c.id}')" class="p-1.5 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-lg" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            tbody.innerHTML = html;
         }
 
         function editCase(id) {
-            const c = appData.cases.find(item => item.id === id);
+            let c = casesData.find(item => item.id === id);
             if (!c) return;
-
             document.getElementById('case-edit-id').value = c.id;
-            document.getElementById('case-student-id').value = c.studentId;
+            document.getElementById('case-student-id').value = c.studentNis;
             document.getElementById('case-title').value = c.title;
             document.getElementById('case-level').value = c.level;
             document.getElementById('case-points').value = c.points;
             document.getElementById('case-status').value = c.status;
             document.getElementById('case-date').value = c.date;
-            document.getElementById('case-desc').value = c.desc || '';
-            document.getElementById('case-action').value = c.action || '';
+            document.getElementById('case-desc').value = c.desc;
+            document.getElementById('case-action').value = c.action;
 
-            document.getElementById('case-form-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-amber-600"></i> Edit Catatan Jurnal Kasus`;
-            document.getElementById('btn-save-case').className = "bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition flex items-center gap-2 shadow";
-            document.getElementById('btn-save-case').innerHTML = `<i class="fa-solid fa-check"></i> Update Catatan Kasus`;
+            document.getElementById('case-form-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-amber-600"></i> Edit Catatan Kasus / Perilaku`;
+            document.getElementById('btn-save-case').innerHTML = `<i class="fa-solid fa-save"></i> Update Catatan`;
             document.getElementById('cancel-edit-case-btn').classList.remove('hidden');
-
-            document.getElementById('case-form-container').scrollIntoView({ behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function cancelEditCase() {
-            document.getElementById('case-edit-id').value = "";
+            document.getElementById('case-edit-id').value = '';
             document.getElementById('form-kasus').reset();
-            document.getElementById('case-date').value = currentDateStr;
-
+            document.getElementById('case-date').value = todayStr;
             document.getElementById('case-form-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-islamic-600"></i> Form Catatan Jurnal Kasus / Perilaku Siswa`;
-            document.getElementById('btn-save-case').className = "bg-islamic-600 hover:bg-islamic-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition flex items-center gap-2 shadow";
             document.getElementById('btn-save-case').innerHTML = `<i class="fa-solid fa-save"></i> Simpan Catatan Kasus`;
             document.getElementById('cancel-edit-case-btn').classList.add('hidden');
         }
 
-        function renderCaseTable() {
-            const tbody = document.getElementById('case-table-body');
-            const levelFilter = document.getElementById('filter-case-level').value;
-            const statusFilter = document.getElementById('filter-case-status').value;
-            const search = document.getElementById('search-case').value.toLowerCase();
-            const studentsMap = getStudentsMap();
-
-            let filtered = appData.cases.filter(c => c.className === appData.activeClass);
-            if (levelFilter) filtered = filtered.filter(c => c.level === levelFilter);
-            if (statusFilter) filtered = filtered.filter(c => c.status === statusFilter);
-            if (search) {
-                filtered = filtered.filter(c => {
-                    const sName = (studentsMap[c.studentId] || "").toLowerCase();
-                    return sName.includes(search) || c.title.toLowerCase().includes(search);
-                });
-            }
-
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="text-center py-6 text-slate-400">Belum ada catatan pelanggaran.</td></tr>`;
-                return;
-            }
-
-            let html = '';
-            filtered.forEach(c => {
-                const sName = studentsMap[c.studentId] || "Siswa Tidak Dikenal";
-                let badgeColor = 'bg-slate-100 text-slate-700';
-                if (c.level === 'Ringan') badgeColor = 'bg-amber-100 text-amber-800';
-                if (c.level === 'Sedang') badgeColor = 'bg-orange-100 text-orange-800';
-                if (c.level === 'Berat') badgeColor = 'bg-rose-100 text-rose-800';
-
-                let statusColor = 'bg-blue-100 text-blue-800';
-                if (c.status === 'Selesai') statusColor = 'bg-emerald-100 text-emerald-800';
-                if (c.status === 'Tindak Lanjut Orang Tua/BK') statusColor = 'bg-purple-100 text-purple-800';
-
-                html += `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="p-3 text-xs text-slate-500 whitespace-nowrap">${c.date}</td>
-                        <td class="p-3 font-semibold text-slate-800">${sName}</td>
-                        <td class="p-3">
-                            <div class="font-medium text-slate-800">${c.title}</div>
-                            <div class="text-xs text-slate-400">${c.desc || '-'}</div>
-                        </td>
-                        <td class="p-3 text-center"><span class="px-2.5 py-1 rounded-full text-xs font-bold ${badgeColor}">${c.level}</span></td>
-                        <td class="p-3 text-center font-bold text-rose-600">+${c.points}</td>
-                        <td class="p-3 text-xs text-slate-600">${c.action || '-'}</td>
-                        <td class="p-3 text-center"><span class="px-2.5 py-1 rounded-full text-xs font-semibold ${statusColor}">${c.status}</span></td>
-                        <td class="p-3 text-center no-print whitespace-nowrap">
-                            <button onclick="editCase('${c.id}')" class="text-amber-600 hover:text-amber-800 p-1 mr-1" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="deleteCase('${c.id}')" class="text-rose-500 hover:text-rose-700 p-1" title="Hapus"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
-        }
-
         function deleteCase(id) {
             if (confirm("Hapus catatan kasus ini?")) {
-                appData.cases = appData.cases.filter(c => c.id !== id);
-                saveData();
+                casesData = casesData.filter(c => c.id !== id);
+                saveAllToLocalStorage();
+                renderCaseTable();
+                renderStudentCaseSummary();
             }
         }
 
         function renderStudentCaseSummary() {
             const container = document.getElementById('all-student-cases-print-view');
             const search = document.getElementById('search-rekap-kasus').value.toLowerCase();
-            const students = getActiveStudents();
-
-            let filtered = students.filter(s => s.name.toLowerCase().includes(search) || s.nis.toLowerCase().includes(search));
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-slate-400">Tidak ada siswa ditemukan.</div>`;
-                return;
-            }
+            const students = (dbClasses[activeClassId]?.students || []).filter(s => s.name.toLowerCase().includes(search) || s.nis.includes(search));
 
             let html = '';
-            filtered.forEach(s => {
-                const sCases = appData.cases.filter(c => c.className === appData.activeClass && c.studentId === s.id);
-                const totalCases = sCases.length;
-                const totalPoints = sCases.reduce((sum, c) => sum + c.points, 0);
-
-                let statusText = "Sangat Tertib (Aman)";
-                let statusBadgeClass = "bg-emerald-100 text-emerald-800";
-                if (totalPoints > 0 && totalPoints <= 5) {
-                    statusText = "Perhatian Ringan";
-                    statusBadgeClass = "bg-amber-100 text-amber-800";
-                } else if (totalPoints > 5) {
-                    statusText = "Pembinaan Khusus";
-                    statusBadgeClass = "bg-rose-100 text-rose-800";
-                }
+            students.forEach(s => {
+                let sCases = casesData.filter(c => c.classId === activeClassId && c.studentNis === s.nis);
+                let totalPoints = sCases.reduce((sum, c) => sum + (c.points || 0), 0);
 
                 html += `
-                    <div class="bg-white rounded-xl shadow-md border border-slate-200 p-6 space-y-5 print-page-break">
-                        <div class="border-b pb-4 flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 rounded-full bg-islamic-100 text-islamic-800 font-extrabold flex items-center justify-center text-lg">
-                                    ${s.name.charAt(0)}
-                                </div>
-                                <div>
-                                    <div class="text-xs text-slate-500 font-mono">NIS: ${s.nis} | Kelas: ${appData.activeClass}</div>
-                                    <h2 class="text-xl font-bold text-slate-900">${s.name}</h2>
-                                </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 print-page-break">
+                        <div class="flex items-center justify-between border-b pb-4 mb-4">
+                            <div>
+                                <div class="text-xs text-islamic-700 font-bold uppercase tracking-wider">SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM</div>
+                                <h4 class="text-lg font-bold text-slate-800">Rekapitulasi Jurnal Kasus & Pembinaan Siswa</h4>
                             </div>
                             <div class="text-right">
-                                <span class="px-3 py-1 rounded-full text-xs font-bold ${statusBadgeClass}">${statusText}</span>
+                                <div class="text-sm font-bold text-slate-700">${s.name}</div>
+                                <div class="text-xs text-slate-500 font-mono">NIS: ${s.nis} | Kelas: ${dbClasses[activeClassId].name}</div>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
-                                <div class="text-xs uppercase font-semibold text-slate-500">Total Kejadian Kasus</div>
-                                <div class="text-2xl font-bold text-slate-800 mt-1">${totalCases} <span class="text-xs font-normal text-slate-500">kali</span></div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-slate-50 p-3 rounded-lg border">
+                                <div class="text-xs text-slate-500">Total Kasus Tercatat</div>
+                                <div class="text-xl font-bold text-slate-800">${sCases.length} Kasus</div>
                             </div>
-                            <div class="bg-rose-50/50 p-3 rounded-xl border border-rose-100 text-center">
-                                <div class="text-xs uppercase font-semibold text-rose-700">Akumulasi Poin Pelanggaran</div>
-                                <div class="text-2xl font-bold text-rose-600 mt-1">${totalPoints} <span class="text-xs font-normal text-slate-500">poin</span></div>
+                            <div class="bg-rose-50 p-3 rounded-lg border border-rose-200">
+                                <div class="text-xs text-rose-600 font-semibold">Akumulasi Poin Pelanggaran</div>
+                                <div class="text-xl font-bold text-rose-700">${totalPoints} Poin</div>
                             </div>
                         </div>
 
-                        <div>
-                            <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
-                                <i class="fa-solid fa-list text-islamic-600"></i> Rincian Riwayat Pelanggaran & Pembinaan
-                            </h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-700 uppercase">
+                                        <th class="p-2.5">Tanggal</th>
+                                        <th class="p-2.5">Jenis Pelanggaran</th>
+                                        <th class="p-2.5 text-center">Tingkat</th>
+                                        <th class="p-2.5 text-center">Poin</th>
+                                        <th class="p-2.5">Tindakan Guru</th>
+                                        <th class="p-2.5 text-center">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
                 `;
 
                 if (sCases.length === 0) {
-                    html += `
-                        <div class="bg-emerald-50/50 border border-emerald-200 rounded-xl p-6 text-center text-emerald-800 space-y-1">
-                            <i class="fa-solid fa-circle-check text-2xl text-emerald-600 mb-1"></i>
-                            <p class="font-bold text-sm">Alhamdulillah, tidak ada catatan pelanggaran untuk siswa ini.</p>
-                            <p class="text-xs text-emerald-700">Menunjukkan kedisiplinan dan perilaku yang sangat baik selama di sekolah.</p>
-                        </div>
-                    `;
+                    html += `<tr><td colspan="6" class="text-center p-4 text-slate-400 font-normal">Alhamdulillah, tidak ada catatan pelanggaran.</td></tr>`;
                 } else {
-                    html += `<div class="space-y-3">`;
-                    sCases.forEach((c, idx) => {
-                        let badgeColor = 'bg-amber-100 text-amber-800';
-                        if (c.level === 'Sedang') badgeColor = 'bg-orange-100 text-orange-800';
-                        if (c.level === 'Berat') badgeColor = 'bg-rose-100 text-rose-800';
-
-                        let statusColor = 'bg-blue-100 text-blue-800';
-                        if (c.status === 'Selesai') statusColor = 'bg-emerald-100 text-emerald-800';
-                        if (c.status === 'Tindak Lanjut Orang Tua/BK') statusColor = 'bg-purple-100 text-purple-800';
-
+                    sCases.forEach(c => {
                         html += `
-                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2 text-xs">
-                                <div class="flex items-center justify-between">
-                                    <span class="font-mono text-slate-500 font-semibold"><i class="fa-regular fa-calendar"></i> ${c.date}</span>
-                                    <div class="flex gap-2">
-                                        <span class="px-2 py-0.5 rounded-full font-bold ${badgeColor}">${c.level} (+${c.points} Poin)</span>
-                                        <span class="px-2 py-0.5 rounded-full font-semibold ${statusColor}">${c.status}</span>
-                                    </div>
-                                </div>
-                                <div class="font-bold text-slate-900 text-sm">${idx + 1}. ${c.title}</div>
-                                <div><b class="text-slate-700">Kronologi:</b> ${c.desc || '-'}</div>
-                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 text-islamic-900">
-                                    <b class="text-islamic-800">Tindakan / Pembinaan Guru:</b> ${c.action || '-'}
-                                </div>
-                            </div>
+                            <tr>
+                                <td class="p-2.5 font-mono">${c.date}</td>
+                                <td class="p-2.5 font-medium text-slate-800">${c.title}<br><span class="text-slate-500 font-normal">${c.desc || ''}</span></td>
+                                <td class="p-2.5 text-center font-semibold">${c.level}</td>
+                                <td class="p-2.5 text-center font-bold text-rose-600">${c.points}</td>
+                                <td class="p-2.5 text-slate-600">${c.action || '-'}</td>
+                                <td class="p-2.5 text-center font-semibold">${c.status}</td>
+                            </tr>
                         `;
                     });
-                    html += `</div>`;
                 }
-
                 html += `
-                        </div>
-
-                        <div class="pt-6 mt-6 border-t border-slate-200 grid grid-cols-2 text-xs text-slate-700">
-                            <div>
-                                <p>Mengetahui Orang Tua / Wali,</p>
-                                <div class="h-14"></div>
-                                <p class="font-bold underline">( ........................................ )</p>
-                            </div>
-                            <div class="text-right">
-                                <p>Mataram, <span id="print-date-card">${formatDateIndo(currentDateStr)}</span></p>
-                                <p class="font-bold">Wali Kelas / Guru Pembimbing,</p>
-                                <div class="h-14"></div>
-                                <p class="font-bold underline">( Muhammad Kazuwaini, Lc. )</p>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 `;
@@ -1160,255 +995,205 @@
             container.innerHTML = html;
         }
 
-        // --- PENILAIAN AL-QUR'AN (DENGAN EDIT) & REKAP QUR'AN PER SISWA ---
         function autoCalculateGrade() {
-            const score = parseInt(document.getElementById('quran-score').value);
-            const gradeDisplay = document.getElementById('quran-grade-display');
-            if (isNaN(score)) { gradeDisplay.value = ""; return; }
-            let grade = "";
-            if (score >= 90) grade = "Mumtaz (A+) - Sangat Baik";
-            else if (score >= 80) grade = "Jayyid Jiddan (A) - Baik Sekali";
-            else if (score >= 70) grade = "Jayyid (B) - Baik";
-            else if (score >= 60) grade = "Maqbul (C) - Cukup";
-            else grade = "Perlu Bimbingan (D)";
-            gradeDisplay.value = grade;
+            let score = parseInt(document.getElementById('quran-score').value) || 0;
+            let gradeInput = document.getElementById('quran-grade-display');
+            if (score >= 90) gradeInput.value = "A (Mumtaz / Istimewa)";
+            else if (score >= 80) gradeInput.value = "B (Jayyid Jiddan / Baik Sekali)";
+            else if (score >= 75) gradeInput.value = "C (Jayyid / Baik)";
+            else gradeInput.value = "D (Perlu Bimbingan)";
         }
 
         function saveQuranAssessment(e) {
             e.preventDefault();
             const editId = document.getElementById('quran-edit-id').value;
-            const studentId = document.getElementById('quran-student-id').value;
-            const category = document.getElementById('quran-category').value;
-            const date = document.getElementById('quran-date').value;
-            const surah = document.getElementById('quran-surah').value;
-            const score = parseInt(document.getElementById('quran-score').value) || 0;
-            const grade = document.getElementById('quran-grade-display').value;
-            const smoothness = document.getElementById('quran-smoothness').value;
-            const tajweed = document.getElementById('quran-tajweed').value;
-            const teacher = document.getElementById('quran-teacher').value;
-            const note = document.getElementById('quran-note').value;
+            let score = parseInt(document.getElementById('quran-score').value) || 0;
+            let grade = document.getElementById('quran-grade-display').value;
+
+            const record = {
+                id: editId || 'quran_' + Date.now(),
+                classId: activeClassId,
+                studentNis: document.getElementById('quran-student-id').value,
+                category: document.getElementById('quran-category').value,
+                date: document.getElementById('quran-date').value,
+                surah: document.getElementById('quran-surah').value,
+                score: score,
+                grade: grade,
+                smoothness: document.getElementById('quran-smoothness').value,
+                tajweed: document.getElementById('quran-tajweed').value,
+                teacher: document.getElementById('quran-teacher').value,
+                note: document.getElementById('quran-note').value
+            };
 
             if (editId) {
-                const index = appData.quran.findIndex(q => q.id === editId);
-                if (index !== -1) {
-                    appData.quran[index] = { id: editId, className: appData.activeClass, studentId, category, date, surah, score, grade, smoothness, tajweed, teacher, note };
-                    alert("Data penilaian Al-Qur'an berhasil diperbarui!");
-                }
+                let idx = quranData.findIndex(q => q.id === editId);
+                if (idx !== -1) quranData[idx] = record;
             } else {
-                const newItem = {
-                    id: 'quran_' + Date.now(),
-                    className: appData.activeClass,
-                    studentId, category, date, surah, score, grade, smoothness, tajweed, teacher, note
-                };
-                appData.quran.unshift(newItem);
-                alert("Penilaian Al-Qur'an berhasil disimpan!");
+                quranData.unshift(record);
             }
-            saveData();
+
+            saveAllToLocalStorage();
             cancelEditQuran();
-        }
-
-        function editQuran(id) {
-            const item = appData.quran.find(q => q.id === id);
-            if (!item) return;
-
-            document.getElementById('quran-edit-id').value = item.id;
-            document.getElementById('quran-student-id').value = item.studentId;
-            document.getElementById('quran-category').value = item.category;
-            document.getElementById('quran-date').value = item.date;
-            document.getElementById('quran-surah').value = item.surah;
-            document.getElementById('quran-score').value = item.score || "";
-            document.getElementById('quran-grade-display').value = item.grade || "";
-            document.getElementById('quran-smoothness').value = item.smoothness;
-            document.getElementById('quran-tajweed').value = item.tajweed;
-            document.getElementById('quran-teacher').value = item.teacher || "";
-            document.getElementById('quran-note').value = item.note || "";
-
-            document.getElementById('quran-form-title').innerHTML = `<i class="fa-solid fa-pen-to-square text-amber-600"></i> Edit Penilaian Al-Qur'an`;
-            document.getElementById('btn-save-quran').className = "bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition flex items-center gap-2 shadow";
-            document.getElementById('btn-save-quran').innerHTML = `<i class="fa-solid fa-check"></i> Update Penilaian`;
-            document.getElementById('cancel-edit-quran-btn').classList.remove('hidden');
-            document.getElementById('quran-form-container').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function cancelEditQuran() {
-            document.getElementById('quran-edit-id').value = "";
+            renderQuranTable();
+            renderStudentQuranSummary();
             document.getElementById('form-quran').reset();
-            document.getElementById('quran-date').value = currentDateStr;
-            document.getElementById('quran-grade-display').value = "";
-            document.getElementById('quran-form-title').innerHTML = `<i class="fa-solid fa-book-quran text-islamic-600"></i> Form Setoran & Penilaian Al-Qur'an`;
-            document.getElementById('btn-save-quran').className = "bg-islamic-600 hover:bg-islamic-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition flex items-center gap-2 shadow";
-            document.getElementById('btn-save-quran').innerHTML = `<i class="fa-solid fa-save"></i> Simpan Penilaian Al-Qur'an`;
-            document.getElementById('cancel-edit-quran-btn').classList.add('hidden');
+            document.getElementById('quran-date').value = todayStr;
         }
 
         function renderQuranTable() {
             const tbody = document.getElementById('quran-table-body');
-            const catFilter = document.getElementById('filter-quran-category').value;
+            const filterCat = document.getElementById('filter-quran-category').value;
             const search = document.getElementById('search-quran').value.toLowerCase();
-            const studentsMap = getStudentsMap();
+            const studentsMap = {};
+            (dbClasses[activeClassId]?.students || []).forEach(s => studentsMap[s.nis] = s.name);
 
-            let filtered = appData.quran.filter(q => q.className === appData.activeClass);
-            if (catFilter) filtered = filtered.filter(q => q.category === catFilter);
+            let filtered = quranData.filter(q => q.classId === activeClassId);
+            if (filterCat) filtered = filtered.filter(q => q.category === filterCat);
             if (search) {
                 filtered = filtered.filter(q => {
-                    const sName = (studentsMap[q.studentId] || "").toLowerCase();
+                    let sName = (studentsMap[q.studentNis] || '').toLowerCase();
                     return sName.includes(search) || q.surah.toLowerCase().includes(search);
                 });
             }
 
-            if (filtered.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" class="text-center py-6 text-slate-400">Belum ada riwayat setoran Al-Qur'an.</td></tr>`;
-                return;
-            }
-
             let html = '';
-            filtered.forEach(q => {
-                const sName = studentsMap[q.studentId] || "Siswa Tidak Dikenal";
-                const scoreDisplay = q.score !== undefined ? q.score : "-";
-                let scoreBadge = "bg-slate-100 text-slate-700";
-                if (q.score >= 85) scoreBadge = "bg-emerald-100 text-emerald-800 font-bold";
-                else if (q.score >= 70) scoreBadge = "bg-blue-100 text-blue-800 font-bold";
-                else if (q.score < 70) scoreBadge = "bg-rose-100 text-rose-800 font-bold";
-
-                html += `
-                    <tr class="hover:bg-slate-50 transition">
-                        <td class="p-3 text-xs text-slate-500 whitespace-nowrap">${q.date}</td>
-                        <td class="p-3 font-semibold text-slate-800">${sName}</td>
-                        <td class="p-3 text-xs font-semibold text-islamic-700">${q.category}</td>
-                        <td class="p-3 font-medium text-slate-800">${q.surah}</td>
-                        <td class="p-3 text-center"><span class="px-2.5 py-1 rounded-md text-xs ${scoreBadge}">${scoreDisplay}</span></td>
-                        <td class="p-3 text-center text-xs text-slate-600 font-medium">${q.grade || '-'}</td>
-                        <td class="p-3 text-center"><span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 font-bold text-xs">${q.smoothness}</span></td>
-                        <td class="p-3 text-xs text-slate-600">${q.note || '-'}</td>
-                        <td class="p-3 text-center no-print whitespace-nowrap">
-                            <button onclick="editQuran('${q.id}')" class="text-amber-600 hover:text-amber-800 p-1 mr-1" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>
-                            <button onclick="deleteQuran('${q.id}')" class="text-rose-500 hover:text-rose-700 p-1" title="Hapus"><i class="fa-solid fa-trash"></i></button>
-                        </td>
-                    </tr>
-                `;
-            });
+            if (filtered.length === 0) {
+                html = `<tr><td colspan="10" class="text-center p-6 text-slate-400">Belum ada data setoran Al-Qur'an.</td></tr>`;
+            } else {
+                filtered.forEach(q => {
+                    let sName = studentsMap[q.studentNis] || 'Siswa Tidak Ditemukan';
+                    html += `
+                        <tr class="hover:bg-slate-50/70 align-top">
+                            <td class="p-3.5 text-xs text-slate-600 font-mono">${q.date}</td>
+                            <td class="p-3.5 font-semibold text-slate-800">${sName}</td>
+                            <td class="p-3.5 text-xs font-medium text-islamic-700">${q.category}</td>
+                            <td class="p-3.5 font-arabic text-base text-slate-900">${q.surah}</td>
+                            <td class="p-3.5 text-center font-bold text-islamic-700">${q.score}</td>
+                            <td class="p-3.5 text-center"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 font-bold rounded text-xs">${q.grade.split(' ')[0]}</span></td>
+                            <td class="p-3.5 text-center text-xs">${q.smoothness}</td>
+                            <td class="p-3.5 text-center text-xs">${q.tajweed}</td>
+                            <td class="p-3.5 text-xs text-slate-600">${q.note || '-'}<br><span class="text-slate-400 italic">Penguji: ${q.teacher || '-'}</span></td>
+                            <td class="p-3.5 text-center no-print whitespace-nowrap">
+                                <button onclick="editQuran('${q.id}')" class="p-1.5 bg-amber-50 text-amber-600 hover:bg-amber-100 rounded-lg mr-1" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                                <button onclick="deleteQuran('${q.id}')" class="p-1.5 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-lg" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
             tbody.innerHTML = html;
         }
 
+        function editQuran(id) {
+            let q = quranData.find(item => item.id === id);
+            if (!q) return;
+            document.getElementById('quran-edit-id').value = q.id;
+            document.getElementById('quran-student-id').value = q.studentNis;
+            document.getElementById('quran-category').value = q.category;
+            document.getElementById('quran-date').value = q.date;
+            document.getElementById('quran-surah').value = q.surah;
+            document.getElementById('quran-score').value = q.score;
+            autoCalculateGrade();
+            document.getElementById('quran-smoothness').value = q.smoothness;
+            document.getElementById('quran-tajweed').value = q.tajweed;
+            document.getElementById('quran-teacher').value = q.teacher;
+            document.getElementById('quran-note').value = q.note;
+
+            document.getElementById('quran-form-title').innerHTML = `<i class="fa-solid fa-book-quran text-amber-600"></i> Edit Penilaian Al-Qur'an`;
+            document.getElementById('btn-save-quran').innerHTML = `<i class="fa-solid fa-save"></i> Update Penilaian`;
+            document.getElementById('cancel-edit-quran-btn').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelEditQuran() {
+            document.getElementById('quran-edit-id').value = '';
+            document.getElementById('form-quran').reset();
+            document.getElementById('quran-date').value = todayStr;
+            document.getElementById('quran-grade-display').value = '';
+            document.getElementById('quran-form-title').innerHTML = `<i class="fa-solid fa-book-quran text-islamic-600"></i> Form Setoran & Penilaian Al-Qur'an`;
+            document.getElementById('btn-save-quran').innerHTML = `<i class="fa-solid fa-save"></i> Simpan Penilaian Al-Qur'an`;
+            document.getElementById('cancel-edit-quran-btn').classList.add('hidden');
+        }
+
         function deleteQuran(id) {
-            if (confirm("Hapus penilaian Al-Qur'an ini?")) {
-                appData.quran = appData.quran.filter(q => q.id !== id);
-                saveData();
+            if (confirm("Hapus catatan penilaian Al-Qur'an ini?")) {
+                quranData = quranData.filter(q => q.id !== id);
+                saveAllToLocalStorage();
+                renderQuranTable();
+                renderStudentQuranSummary();
             }
         }
 
-        // --- REKAP AL-QUR'AN PER SISWA (TAB 5) ---
         function renderStudentQuranSummary() {
             const container = document.getElementById('all-student-quran-print-view');
             const search = document.getElementById('search-rekap-quran').value.toLowerCase();
-            const students = getActiveStudents();
-
-            let filtered = students.filter(s => s.name.toLowerCase().includes(search) || s.nis.toLowerCase().includes(search));
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-slate-400">Tidak ada siswa ditemukan.</div>`;
-                return;
-            }
+            const students = (dbClasses[activeClassId]?.students || []).filter(s => s.name.toLowerCase().includes(search) || s.nis.includes(search));
 
             let html = '';
-            filtered.forEach(s => {
-                const sQuran = appData.quran.filter(q => q.className === appData.activeClass && q.studentId === s.id);
-                const totalSetoran = sQuran.length;
-                const totalScores = sQuran.reduce((sum, q) => sum + (q.score || 0), 0);
-                const avgScore = totalSetoran > 0 ? (totalScores / totalSetoran).toFixed(1) : "-";
-
-                let avgBadge = "bg-slate-100 text-slate-800";
-                if (avgScore >= 85) avgBadge = "bg-emerald-100 text-emerald-800";
-                else if (avgScore >= 70) avgBadge = "bg-blue-100 text-blue-800";
-                else if (avgScore > 0) avgBadge = "bg-amber-100 text-amber-800";
+            students.forEach(s => {
+                let sQuran = quranData.filter(q => q.classId === activeClassId && q.studentNis === s.nis);
+                let avgScore = sQuran.length > 0 ? (sQuran.reduce((acc, curr) => acc + curr.score, 0) / sQuran.length).toFixed(1) : 0;
 
                 html += `
-                    <div class="bg-white rounded-xl shadow-md border border-slate-200 p-6 space-y-5 print-page-break">
-                        <div class="border-b pb-4 flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-12 h-12 rounded-full bg-emerald-100 text-emerald-800 font-extrabold flex items-center justify-center text-lg">
-                                    ${s.name.charAt(0)}
-                                </div>
-                                <div>
-                                    <div class="text-xs text-slate-500 font-mono">NIS: ${s.nis} | Kelas: ${appData.activeClass}</div>
-                                    <h2 class="text-xl font-bold text-slate-900">${s.name}</h2>
-                                </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 print-page-break">
+                        <div class="flex items-center justify-between border-b pb-4 mb-4">
+                            <div>
+                                <div class="text-xs text-islamic-700 font-bold uppercase tracking-wider">SD AL-WILDAN ISLAMIC SCHOOL 20 MATARAM</div>
+                                <h4 class="text-lg font-bold text-slate-800">Buku Rapor Saku Setoran Hafalan & Tilawah Al-Qur'an</h4>
                             </div>
                             <div class="text-right">
-                                <span class="px-3 py-1 rounded-full text-xs font-bold ${avgBadge}">Rata-Rata Nilai: ${avgScore}</span>
+                                <div class="text-sm font-bold text-slate-700">${s.name}</div>
+                                <div class="text-xs text-slate-500 font-mono">NIS: ${s.nis} | Kelas: ${dbClasses[activeClassId].name}</div>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 text-center">
-                                <div class="text-xs uppercase font-semibold text-slate-500">Total Setoran Al-Qur'an</div>
-                                <div class="text-2xl font-bold text-slate-800 mt-1">${totalSetoran} <span class="text-xs font-normal text-slate-500">kali</span></div>
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div class="bg-slate-50 p-3 rounded-lg border">
+                                <div class="text-xs text-slate-500">Total Setoran / Sesi</div>
+                                <div class="text-xl font-bold text-slate-800">${sQuran.length} Setoran</div>
                             </div>
-                            <div class="bg-emerald-50/50 p-3 rounded-xl border border-emerald-100 text-center">
-                                <div class="text-xs uppercase font-semibold text-emerald-700">Rata-Rata Angka</div>
-                                <div class="text-2xl font-bold text-emerald-600 mt-1">${avgScore}</div>
+                            <div class="bg-emerald-50 p-3 rounded-lg border border-emerald-200">
+                                <div class="text-xs text-emerald-700 font-semibold">Rata-Rata Nilai Al-Qur'an</div>
+                                <div class="text-xl font-bold text-emerald-800">${avgScore}</div>
                             </div>
                         </div>
 
-                        <div>
-                            <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
-                                <i class="fa-solid fa-book-quran text-emerald-600"></i> Rincian Riwayat Setoran & Nilai Al-Qur'an
-                            </h4>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="bg-slate-100 text-slate-700 uppercase">
+                                        <th class="p-2.5">Tanggal</th>
+                                        <th class="p-2.5">Kategori</th>
+                                        <th class="p-2.5">Surah / Ayat</th>
+                                        <th class="p-2.5 text-center">Nilai</th>
+                                        <th class="p-2.5 text-center">Predikat</th>
+                                        <th class="p-2.5 text-center">Kelancaran</th>
+                                        <th class="p-2.5">Catatan Penguji</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100">
                 `;
 
                 if (sQuran.length === 0) {
-                    html += `
-                        <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 text-center text-slate-500 space-y-1">
-                            <i class="fa-solid fa-circle-info text-2xl text-slate-400 mb-1"></i>
-                            <p class="font-bold text-sm">Belum ada riwayat setoran Al-Qur'an tercatat untuk siswa ini.</p>
-                        </div>
-                    `;
+                    html += `<tr><td colspan="7" class="text-center p-4 text-slate-400 font-normal">Belum ada riwayat setoran Al-Qur'an tercatat.</td></tr>`;
                 } else {
-                    html += `<div class="space-y-3">`;
-                    sQuran.forEach((q, idx) => {
-                        let scoreBadge = "bg-slate-100 text-slate-700";
-                        if (q.score >= 85) scoreBadge = "bg-emerald-100 text-emerald-800 font-bold";
-                        else if (q.score >= 70) scoreBadge = "bg-blue-100 text-blue-800 font-bold";
-                        else if (q.score < 70) scoreBadge = "bg-rose-100 text-rose-800 font-bold";
-
+                    sQuran.forEach(q => {
                         html += `
-                            <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2 text-xs">
-                                <div class="flex items-center justify-between">
-                                    <span class="font-mono text-slate-500 font-semibold"><i class="fa-regular fa-calendar"></i> ${q.date}</span>
-                                    <div class="flex gap-2">
-                                        <span class="px-2 py-0.5 rounded font-semibold bg-islamic-50 text-islamic-800">${q.category}</span>
-                                        <span class="px-2.5 py-0.5 rounded font-bold ${scoreBadge}">Nilai: ${q.score}</span>
-                                    </div>
-                                </div>
-                                <div class="font-bold text-slate-900 text-sm">${idx + 1}. Surah/Ayat: ${q.surah}</div>
-                                <div class="grid grid-cols-2 gap-2 pt-1 text-slate-700">
-                                    <div><b>Kelancaran:</b> <span class="text-emerald-700 font-bold">${q.smoothness}</span></div>
-                                    <div><b>Tajwid:</b> <span class="text-emerald-700 font-bold">${q.tajweed}</span></div>
-                                </div>
-                                <div class="bg-white p-2.5 rounded-lg border border-slate-200 text-slate-700">
-                                    <b class="text-slate-800">Catatan Penguji (${q.teacher || 'Guru'}):</b> ${q.note || '-'}
-                                </div>
-                            </div>
+                            <tr>
+                                <td class="p-2.5 font-mono">${q.date}</td>
+                                <td class="p-2.5 font-medium text-islamic-800">${q.category}</td>
+                                <td class="p-2.5 font-arabic text-sm">${q.surah}</td>
+                                <td class="p-2.5 text-center font-bold text-islamic-700">${q.score}</td>
+                                <td class="p-2.5 text-center font-bold">${q.grade.split(' ')[0]}</td>
+                                <td class="p-2.5 text-center">${q.smoothness.split(' ')[0]}</td>
+                                <td class="p-2.5 text-slate-600">${q.note || '-'} (${q.teacher || '-'})</td>
+                            </tr>
                         `;
                     });
-                    html += `</div>`;
                 }
-
                 html += `
-                        </div>
-
-                        <div class="pt-6 mt-6 border-t border-slate-200 grid grid-cols-2 text-xs text-slate-700">
-                            <div>
-                                <p>Mengetahui Orang Tua / Wali,</p>
-                                <div class="h-14"></div>
-                                <p class="font-bold underline">( ........................................ )</p>
-                            </div>
-                            <div class="text-right">
-                                <p>Mataram, <span id="print-date-card">${formatDateIndo(currentDateStr)}</span></p>
-                                <p class="font-bold">Guru Pembimbing Al-Qur'an,</p>
-                                <div class="h-14"></div>
-                                <p class="font-bold underline">( Muhammad Kazuwaini, Lc. )</p>
-                            </div>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 `;
@@ -1416,227 +1201,151 @@
             container.innerHTML = html;
         }
 
-        <!-- REKAPAN PEKANAN & SPREADSHEET -->
-    <script>
-        // --- FUNGSI SINKRONISASI KE NEON DATABASE ---
-        async function saveDataToNeon(payload) {
-            try {
-                const response = await fetch('/api/jurnal', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (!response.ok) {
-                    console.error("Gagal menyimpan ke database Neon");
-                }
-            } catch (error) {
-                console.error("Kesalahan jaringan:", error);
-            }
-        }
+        function renderFullSummary() {
+            const area = document.getElementById('rekap-content-area');
+            const students = dbClasses[activeClassId]?.students || [];
+            let totalSiswa = students.length;
+            let totalKasusClass = casesData.filter(c => c.classId === activeClassId).length;
+            let totalQuranClass = quranData.filter(q => q.classId === activeClassId).length;
 
-        async function renderWeeklyReport() {
-            const monthIdx = parseInt(document.getElementById('rekap-month').value);
-            const weekNum = parseInt(document.getElementById('rekap-week').value);
-            const months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-
-            document.getElementById('rekap-header-subtitle').innerText = `PEKAN ${weekNum} - ${months[monthIdx].toUpperCase()} 2026`;
-            const students = getActiveStudents();
-            const tbody = document.getElementById('weekly-rekap-tbody');
-
-            if (students.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="10" class="text-center py-6 text-slate-400">Tidak ada siswa.</td></tr>`;
-                return;
-            }
-
-            const startDay = (weekNum - 1) * 7 + 1;
-            const endDay = Math.min(weekNum * 7, 31);
-
-            let html = '';
-            students.forEach((s, idx) => {
-                let countH = 0, countI = 0, countS = 0, countA = 0;
-                Object.keys(appData.attendance).forEach(dateKey => {
-                    const d = new Date(dateKey);
-                    if (d.getMonth() === monthIdx && d.getDate() >= startDay && d.getDate() <= endDay) {
-                        const st = appData.attendance[dateKey][s.id]?.status;
-                        if (st === 'H') countH++;
-                        if (st === 'I') countI++;
-                        if (st === 'S') countS++;
-                        if (st === 'A') countA++;
-                    }
-                });
-
-                const studentCases = appData.cases.filter(c => {
-                    const d = new Date(c.date);
-                    return c.className === appData.activeClass && c.studentId === s.id && d.getMonth() === monthIdx && d.getDate() >= startDay && d.getDate() <= endDay;
-                });
-                const totalPoints = studentCases.reduce((sum, item) => sum + item.points, 0);
-
-                const studentQuran = appData.quran.filter(q => {
-                    const d = new Date(q.date);
-                    return q.className === appData.activeClass && q.studentId === s.id && d.getMonth() === monthIdx && d.getDate() >= startDay && d.getDate() <= endDay;
-                });
-                const totalQuranSetoran = studentQuran.length;
-                const totalScores = studentQuran.reduce((sum, item) => sum + (item.score || 0), 0);
-                const avgScore = totalQuranSetoran > 0 ? (totalScores / totalQuranSetoran).toFixed(1) : "-";
-
-                html += `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-2 border border-slate-200 text-center">${idx + 1}</td>
-                        <td class="p-2 border border-slate-200 font-mono text-slate-600">${s.nis}</td>
-                        <td class="p-2 border border-slate-200 font-bold text-slate-800">${s.name}</td>
-                        <td class="p-2 border border-slate-200 text-center font-bold text-emerald-700">${countH}</td>
-                        <td class="p-2 border border-slate-200 text-center font-bold text-blue-700">${countI}</td>
-                        <td class="p-2 border border-slate-200 text-center font-bold text-amber-700">${countS}</td>
-                        <td class="p-2 border border-slate-200 text-center font-bold text-rose-700">${countA}</td>
-                        <td class="p-2 border border-slate-200 text-center font-bold ${totalPoints > 0 ? 'text-rose-600' : 'text-slate-400'}">${totalPoints > 0 ? totalPoints + ' poin' : '-'}</td>
-                        <td class="p-2 border border-slate-200 text-center font-bold text-purple-700">${totalQuranSetoran} kali</td>
-                        <td class="p-2 border border-slate-200 text-center font-bold ${avgScore >= 80 ? 'text-emerald-700' : 'text-slate-700'}">${avgScore}</td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
-        }
-
-        function downloadWeeklyPDF() {
-            document.getElementById('print-document-title').innerText = "LAPORAN REKAPITULASI MINGGUAN SISWA";
-            window.print();
-        }
-
-        function saveWebhookURL() {
-            const url = document.getElementById('webhook-url').value.trim();
-            appData.webhookUrl = url;
-            saveData();
-            alert("Webhook Google Sheets URL berhasil disimpan!");
-        }
-
-        function syncToGoogleSheets() {
-            if (!appData.webhookUrl) {
-                alert("Atur Webhook URL Google Sheets terlebih dahulu di Tab 7 (Google Sheets)!");
-                switchTab('sheets');
-                return;
-            }
-            const payload = { kelas: appData.activeClass, attendance: appData.attendance, quran: appData.quran, cases: appData.cases };
-            fetch(appData.webhookUrl, {
-                method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            }).then(() => alert("Data berhasil disinkronisasi ke Google Sheets!")).catch(() => alert("Gagal sinkronisasi."));
-        }
-
-        function downloadCSV(type) {
-            let csvContent = "data:text/csv;charset=utf-8,";
-            const studentsMap = getStudentsMap();
-            if (type === 'attendance') {
-                csvContent += "Tanggal,NIS,Nama Siswa,Status,Keterangan\n";
-                Object.keys(appData.attendance).forEach(dateKey => {
-                    const dayAtt = appData.attendance[dateKey];
-                    Object.keys(dayAtt).forEach(sId => {
-                        const sName = studentsMap[sId] || sId;
-                        const item = dayAtt[sId];
-                        csvContent += `"${dateKey}","${sId}","${sName}","${item.status}","${item.note || ''}"\n`;
-                    });
-                });
-            } else if (type === 'quran') {
-                csvContent += "Tanggal,Nama Siswa,Kategori,Surah,Nilai,Predikat,Kelancaran,Tajwid,Penguji,Catatan\n";
-                appData.quran.filter(q => q.className === appData.activeClass).forEach(q => {
-                    const sName = studentsMap[q.studentId] || q.studentId;
-                    csvContent += `"${q.date}","${sName}","${q.category}","${q.surah}","${q.score || 0}","${q.grade || ''}","${q.smoothness}","${q.tajweed}","${q.teacher || ''}","${q.note || ''}"\n`;
-                });
-            }
-            const encodedUri = encodeURI(csvContent);
-            const link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", `Rekap_${type}_${appData.activeClass.replace(/\s+/g, '_')}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            area.innerHTML = `
+                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl space-y-2">
+                    <div class="text-xs text-emerald-700 font-bold uppercase">Statistik Umum Siswa</div>
+                    <div class="text-2xl font-bold text-emerald-900">${totalSiswa} Siswa</div>
+                    <p class="text-xs text-emerald-600">Terdaftar di ${dbClasses[activeClassId].name}</p>
+                </div>
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl space-y-2">
+                    <div class="text-xs text-amber-700 font-bold uppercase">Total Jurnal Kasus</div>
+                    <div class="text-2xl font-bold text-amber-900">${totalKasusClass} Catatan</div>
+                    <p class="text-xs text-amber-600">Kasus pembinaan dan pelanggaran</p>
+                </div>
+                <div class="bg-purple-50 border border-purple-200 p-4 rounded-xl space-y-2">
+                    <div class="text-xs text-purple-700 font-bold uppercase">Total Setoran Al-Qur'an</div>
+                    <div class="text-2xl font-bold text-purple-900">${totalQuranClass} Setoran</div>
+                    <p class="text-xs text-purple-600">Ziyadah, Muraja'ah, & Tilawah</p>
+                </div>
+            `;
         }
 
         function openManageStudentsModal() {
-            document.getElementById('modal-class-name').innerText = appData.activeClass;
             renderModalStudentList();
-            document.getElementById('modal-siswa').classList.remove('hidden');
+            document.getElementById('modal-manage-students').classList.remove('hidden');
         }
 
         function closeManageStudentsModal() {
-            document.getElementById('modal-siswa').classList.add('hidden');
-            refreshAllViews();
+            document.getElementById('modal-manage-students').classList.add('hidden');
+            initClassSelector();
         }
 
         function renderModalStudentList() {
-            const tbody = document.getElementById('modal-student-list');
-            const students = getActiveStudents();
-            if (students.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" class="text-center py-4 text-slate-400">Belum ada siswa.</td></tr>`;
-                return;
-            }
+            const tbody = document.getElementById('modal-student-list-body');
+            const students = dbClasses[activeClassId]?.students || [];
             let html = '';
-            students.forEach((s, idx) => {
-                html += `
-                    <tr class="hover:bg-slate-50">
-                        <td class="p-3 text-center text-slate-500">${idx + 1}</td>
-                        <td class="p-3 font-mono text-xs">${s.nis}</td>
-                        <td class="p-3 font-semibold text-slate-800">${s.name}</td>
-                        <td class="p-3 text-center">
-                            <button onclick="removeStudent('${s.id}')" class="text-rose-500 hover:text-rose-700 text-xs font-semibold px-2 py-1 rounded bg-rose-50 hover:bg-rose-100"><i class="fa-solid fa-trash"></i> Hapus</button>
-                        </td>
-                    </tr>
-                `;
-            });
+            if (students.length === 0) {
+                html = `<tr><td colspan="3" class="text-center p-4 text-slate-400">Belum ada siswa di kelas ini.</td></tr>`;
+            } else {
+                students.forEach((s) => {
+                    html += `
+                        <tr>
+                            <td class="p-3 font-mono text-center font-medium">${s.nis}</td>
+                            <td class="p-3 font-semibold text-slate-800">${s.name}</td>
+                            <td class="p-3 text-center">
+                                <button onclick="deleteStudent('${s.nis}')" class="bg-rose-50 hover:bg-rose-100 text-rose-600 px-2.5 py-1 rounded-lg text-xs font-semibold"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
             tbody.innerHTML = html;
         }
 
         function addNewStudent(e) {
             e.preventDefault();
-            const nis = document.getElementById('new-student-nis').value.trim();
-            const name = document.getElementById('new-student-name').value.trim();
-            if (!appData.classes[appData.activeClass]) appData.classes[appData.activeClass] = [];
-            const newId = 'student_' + Date.now() + Math.floor(Math.random()*1000);
+            let nis = document.getElementById('new-nis').value.trim();
+            let name = document.getElementById('new-nama').value.trim();
+            if (!dbClasses[activeClassId].students) dbClasses[activeClassId].students = [];
             
-            const newStudent = { id: newId, nis, name };
-            appData.classes[appData.activeClass].push(newStudent);
-            
-            // Kirim ke database Neon
-            saveDataToNeon({ tanggal: new Date().toISOString().split('T')[0], nis, name, status: 'Siswa Baru', catatan: appData.activeClass });
-            
-            saveData();
+            if (dbClasses[activeClassId].students.some(s => s.nis === nis)) {
+                alert("NIS sudah terdaftar di kelas ini!");
+                return;
+            }
+
+            dbClasses[activeClassId].students.push({ nis, name });
+            saveAllToLocalStorage();
+            document.getElementById('new-nis').value = '';
+            document.getElementById('new-nama').value = '';
             renderModalStudentList();
-            document.getElementById('new-student-nis').value = '';
-            document.getElementById('new-student-name').value = '';
         }
 
-        function removeStudent(studentId) {
-            if (confirm("Hapus siswa ini dari kelas?")) {
-                appData.classes[appData.activeClass] = appData.classes[appData.activeClass].filter(s => s.id !== studentId);
-                saveData();
+        function deleteStudent(nis) {
+            if (confirm("Hapus siswa ini dari daftar kelas?")) {
+                dbClasses[activeClassId].students = dbClasses[activeClassId].students.filter(s => s.nis !== nis);
+                saveAllToLocalStorage();
                 renderModalStudentList();
             }
         }
 
-        function getStudentsMap() {
-            let map = {};
-            Object.values(appData.classes).forEach(studentList => {
-                studentList.forEach(s => { map[s.id] = s.name; });
-            });
-            return map;
-        }
+        function updateQuickStats() {
+            const students = dbClasses[activeClassId]?.students || [];
+            const dateKey = document.getElementById('attendance-date-picker').value;
+            let totalSiswa = students.length;
+            document.getElementById('stat-total-siswa').innerText = totalSiswa;
 
-        function updateStatistics() {
-            const students = getActiveStudents();
-            document.getElementById('stat-total-siswa').innerText = students.length;
-            const dateVal = document.getElementById('attendance-date-picker').value || currentDateStr;
-            const attDay = appData.attendance[dateVal] || {};
             let hadir = 0, izin = 0, sakit = 0, alpa = 0;
-            students.forEach(s => {
-                const status = attDay[s.id]?.status || 'H';
-                if (status === 'H') hadir++;
-                else if (status === 'I') izin++;
-                else if (status === 'S') sakit++;
-                else if (status === 'A') alpa++;
-            });
+            if (attendanceData[activeClassId] && attendanceData[activeClassId][dateKey]) {
+                students.forEach(s => {
+                    let st = attendanceData[activeClassId][dateKey][s.nis]?.status || 'H';
+                    if (st === 'H') hadir++;
+                    else if (st === 'I') izin++;
+                    else if (st === 'S') sakit++;
+                    else if (st === 'A') alpa++;
+                });
+            } else {
+                hadir = totalSiswa;
+            }
+
             document.getElementById('stat-hadir').innerText = hadir;
             document.getElementById('stat-izin').innerText = izin;
             document.getElementById('stat-sakit').innerText = sakit;
             document.getElementById('stat-alpa-terlambat').innerText = alpa;
-            document.getElementById('stat-total-quran').innerText = appData.quran.filter(q => q.className === appData.activeClass).length;
+
+            let totalQuran = quranData.filter(q => q.classId === activeClassId).length;
+            document.getElementById('stat-total-quran').innerText = totalQuran;
+        }
+
+        function saveWebhookUrl() {
+            webhookUrl = document.getElementById('sheets-webhook-url').value.trim();
+            localStorage.setItem('alwildan_webhook', webhookUrl);
+            alert("URL Webhook Google Sheets berhasil disimpan!");
+        }
+
+        function syncToGoogleSheets() {
+            if (!webhookUrl) {
+                alert("Silakan masukkan URL Webhook Google Sheets terlebih dahulu di tab 'Google Sheets'!");
+                switchTab('sheets');
+                return;
+            }
+            
+            alert("Memulai sinkronisasi data ke Google Sheets...");
+            let payload = {
+                className: dbClasses[activeClassId].name,
+                attendance: attendanceData[activeClassId] || {},
+                cases: casesData.filter(c => c.classId === activeClassId),
+                quran: quranData.filter(q => q.classId === activeClassId)
+            };
+
+            fetch(webhookUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                alert("Sinkronisasi data ke Google Sheets berhasil dikirim!");
+            }).catch(err => {
+                console.error(err);
+                alert("Terjadi kesalahan saat menyinkronkan ke Google Sheets.");
+            });
         }
     </script>
+</body>
+</html>
